@@ -1,0 +1,3240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE PHYSICS ROOM BY MAYUR SIR - Electromagnetic Induction Suite</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.4)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 16px rgba(250, 204, 21, 0.85)); }
+    }
+    .brand-glow {
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #facc15;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.9);
+      border: 2px solid #ffffff;
+    }
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #190933;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #7e22ce;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a855f7;
+    }
+  </style>
+</head>
+<body class="bg-[#0e061e] text-white min-h-screen flex flex-col font-sans selection:bg-yellow-400 selection:text-purple-950">
+
+  <!-- Header with Teacher Branding -->
+  <header class="border-b border-purple-800/70 bg-[#160b2e]/95 backdrop-blur sticky top-0 z-50 px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-3 shadow-xl shadow-purple-950/50">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-yellow-400 via-amber-300 to-purple-600 flex items-center justify-center shadow-lg shadow-yellow-400/30 text-purple-950 text-xl font-black brand-glow">
+        <i class="fa-solid fa-atom"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-mono font-extrabold uppercase tracking-widest text-yellow-300 bg-yellow-400/15 border border-yellow-400/40 px-2 py-0.5 rounded-md">
+            THE PHYSICS ROOM
+          </span>
+          <span class="text-xs font-bold text-white tracking-wide">
+            BY <span class="text-yellow-400 font-extrabold underline decoration-yellow-400 decoration-2 underline-offset-2">MAYUR SIR</span>
+          </span>
+        </div>
+        <h1 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-1.5 mt-0.5">
+          <span>Electromagnetic Induction Master Lab &amp; Test Suite</span>
+          <span class="hidden md:inline-block text-[11px] text-purple-300/80 font-normal">| 7 Live Sims + 25-Q Master Assessment</span>
+        </h1>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div class="hidden md:flex items-center gap-2 bg-[#200e42] border border-purple-700/60 px-3 py-1.5 rounded-xl">
+        <span class="text-[11px] text-purple-300 font-mono">Current:</span>
+        <span id="currentExpBadge" class="text-xs font-bold text-yellow-300 truncate max-w-[230px]">
+          1. Any Shape Coil Entering B-Field
+        </span>
+      </div>
+
+      <!-- Quick Jump To Quiz Button -->
+      <button id="quickQuizHeaderBtn" class="px-3 py-2 rounded-xl bg-purple-900/80 hover:bg-purple-800 text-yellow-300 border border-yellow-400/50 text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <i class="fa-solid fa-graduation-cap text-yellow-400"></i>
+        <span>Take 25-Q Quiz</span>
+      </button>
+
+      <!-- Share Link Button -->
+      <button id="shareExpBtn" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-purple-950 font-extrabold transition text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-yellow-400/25 active:scale-95 border border-yellow-200">
+        <i class="fa-solid fa-share-nodes text-sm"></i>
+        <span>Share Link</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Experiment & Quiz Selection Tabs Bar -->
+  <nav class="bg-[#190d36] border-b border-purple-800/60 px-4 sm:px-8 py-2.5 overflow-x-auto flex items-center gap-2 text-xs scrollbar-none">
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-bold transition whitespace-nowrap bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-950 shadow-sm flex items-center gap-2" data-id="coil_entry">
+      <i class="fa-solid fa-shapes"></i>
+      <span>1. Any Shape Coil Entering B-Field</span>
+    </button>
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2" data-id="moting_emf">
+      <i class="fa-solid fa-grip-lines-vertical"></i>
+      <span>2. Motional EMF (Sliding Rod on Rails)</span>
+    </button>
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2" data-id="transformer">
+      <i class="fa-solid fa-plug-circle-bolt"></i>
+      <span>3. Mutual Induction (Transformer)</span>
+    </button>
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2" data-id="induction_cooktop">
+      <i class="fa-solid fa-fire-burner"></i>
+      <span>4. Induction Cooktop (Joule Heating)</span>
+    </button>
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2" data-id="eddy_pipe">
+      <i class="fa-solid fa-hourglass-half"></i>
+      <span>5. Magnet in Copper Pipe</span>
+    </button>
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2" data-id="ac_generator">
+      <i class="fa-solid fa-rotate"></i>
+      <span>6. AC Generator (Alternator)</span>
+    </button>
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2" data-id="jumping_ring">
+      <i class="fa-solid fa-circle-arrow-up"></i>
+      <span>7. Elihu Thomson's Jumping Ring</span>
+    </button>
+    
+    <!-- Tab 8: Master Quiz (Highlight) -->
+    <button class="exp-tab px-3.5 py-2 rounded-lg font-bold transition whitespace-nowrap text-yellow-300 bg-purple-900 border-2 border-yellow-400 hover:bg-yellow-400 hover:text-purple-950 flex items-center gap-2 shadow-lg" data-id="master_quiz">
+      <i class="fa-solid fa-award text-yellow-400"></i>
+      <span>8. Master Quiz &amp; Concept Test (25 Qs)</span>
+    </button>
+  </nav>
+
+  <!-- Main Simulation / Test Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    
+    <!-- Simulation Viewport & Oscilloscope -->
+    <div class="lg:col-span-8 flex flex-col gap-4">
+      <div class="relative bg-[#170c30] border border-purple-800/70 rounded-2xl overflow-hidden shadow-2xl shadow-purple-950/60 flex flex-col">
+        <!-- Top Toolbar with Attributions -->
+        <div class="px-4 py-2.5 bg-[#1c0e3a] border-b border-purple-800/70 flex items-center justify-between text-xs font-mono text-purple-200 flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse"></span>
+            <span id="canvasStatusText" class="text-white font-extrabold uppercase tracking-wider">LIVE LAB &amp; SIMULATION</span>
+            <span class="text-purple-400/60 hidden sm:inline">&bull;</span>
+            <span class="text-yellow-300 font-semibold hidden sm:inline">MAYUR SIR'S CLASSROOM</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="statLabel1" class="text-purple-300">Induced Current:</span>
+            <span id="statValue1" class="text-yellow-300 font-bold bg-yellow-400/10 px-2.5 py-0.5 rounded-lg border border-yellow-400/40">0.00 mA</span>
+          </div>
+        </div>
+
+        <!-- Simulation Canvas -->
+        <div class="relative w-full aspect-[16/10] bg-[#0c051a] select-none overflow-hidden" id="canvasContainer">
+          <canvas id="simCanvas" class="w-full h-full block cursor-pointer"></canvas>
+          
+          <!-- Bottom Floating Live Physics Formula Overlay (Hidden during quiz) -->
+          <div id="formulaCardOverlay" class="absolute bottom-4 left-4 bg-[#180a33]/92 backdrop-blur-md border border-yellow-400/40 p-3 rounded-xl shadow-xl max-w-xs pointer-events-none transition-all">
+            <div class="text-[10px] uppercase font-mono tracking-wider text-yellow-300 font-bold mb-0.5" id="formulaTitle">Physics Equation</div>
+            <div class="text-sm font-serif font-bold text-white tracking-wide flex items-center gap-1.5" id="formulaMath">
+              &Epsilon; = &minus; d&Phi;<sub>B</sub> / dt
+            </div>
+            <p class="text-[11px] text-purple-200 mt-1 leading-snug" id="formulaDesc">
+              Faraday-Lenz Law dictates that induced EMF opposes any change in magnetic flux.
+            </p>
+          </div>
+        </div>
+
+        <!-- Playback & Toggle Controls -->
+        <div class="p-3.5 bg-[#170c30] border-t border-purple-800/70 flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <button id="primaryActionBtn" class="px-4 py-2 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-bold transition text-xs sm:text-sm flex items-center gap-2 shadow-md shadow-yellow-400/20 active:scale-95">
+              <i class="fa-solid fa-play" id="actionIcon"></i>
+              <span id="actionBtnText">Pause / Resume Motion</span>
+            </button>
+            <button id="resetExpBtn" class="p-2 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700/60 transition text-xs" title="Reset Current Simulation">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+            </button>
+          </div>
+          
+          <div class="flex items-center gap-3 text-xs" id="vectorsCheckboxContainer">
+            <label class="flex items-center gap-2 cursor-pointer text-purple-200">
+              <input type="checkbox" id="toggleVectors" checked class="rounded bg-purple-950 border-purple-700 text-yellow-400 focus:ring-yellow-400">
+              <span>Show Direction Vectors &amp; Labels</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Concepts & Notes Panel -->
+      <div class="bg-[#170c30] border border-purple-800/70 rounded-xl p-4 flex flex-col gap-2 shadow-lg">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-yellow-300 font-mono flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-yellow-400"></i>
+            Mayur Sir's Physics Notes
+          </h3>
+          <span class="text-[10px] text-purple-300 font-mono bg-purple-900/50 px-2 py-0.5 rounded border border-purple-700/40">THE PHYSICS ROOM</span>
+        </div>
+        <p id="expExplanation" class="text-sm text-purple-100 leading-relaxed">
+          Electromagnetic induction principles.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Control Panel: Active Experiment Controls & Directory -->
+    <div class="lg:col-span-4 flex flex-col gap-4">
+
+      <!-- Dynamic Experiment / Quiz Controls Card -->
+      <div class="bg-[#170c30] border border-purple-800/70 rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center justify-between border-b border-purple-800/70 pb-3">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-yellow-400" id="panelHeaderIcon"></i>
+            <span id="panelHeaderTitle">Interactive Controls</span>
+          </h2>
+          <span class="text-[11px] font-mono text-yellow-300/80" id="panelSubtext">Live Tweaks</span>
+        </div>
+
+        <div id="dynamicControls" class="flex flex-col gap-3.5">
+          <!-- Dynamically populated controls -->
+        </div>
+      </div>
+
+      <!-- Induction Universe Directory -->
+      <div class="bg-[#170c30] border border-purple-800/70 rounded-2xl p-5 shadow-xl flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+            <i class="fa-solid fa-compass text-yellow-400"></i>
+            Induction Directory
+          </h2>
+          <span class="text-[10px] text-purple-300 font-mono">7 Sims + 1 Quiz</span>
+        </div>
+        <p class="text-xs text-purple-300 leading-snug">
+          Select any experiment or the master concept test below:
+        </p>
+
+        <div class="space-y-2 mt-1">
+          <!-- Quiz Item Featured Banner -->
+          <div class="topic-item p-3 rounded-xl bg-purple-900/80 border-2 border-yellow-400 cursor-pointer transition flex items-start gap-3 shadow-lg" data-id="master_quiz">
+            <div class="p-2 rounded-lg bg-yellow-400 text-purple-950 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-award"></i></div>
+            <div class="flex-1">
+              <div class="text-xs font-extrabold text-yellow-300 flex items-center justify-between">
+                <span>8. Master Quiz &amp; Concept Test</span>
+                <span class="bg-yellow-400 text-purple-950 text-[10px] px-1.5 py-0.2 rounded font-black">25 Qs</span>
+              </div>
+              <p class="text-[11px] text-purple-200 leading-tight mt-0.5">Test your analytical command over Faraday's Law, Lenz's Law, Motional EMF &amp; Eddy Currents with instant score analytics.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-900/50 border border-yellow-400/80 cursor-pointer transition flex items-start gap-3 shadow-lg" data-id="coil_entry">
+            <div class="p-2 rounded-lg bg-yellow-400 text-purple-950 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-shapes"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">1. Any Shape Coil Entering B-Field</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">Circle, Square, Triangle, Ellipse, Hexagon, or Custom Polygon loop cutting flux.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3" data-id="moting_emf">
+            <div class="p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-grip-lines-vertical"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">2. Motional EMF (Sliding Rod on Rails)</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">Left resistance load, reversible B-field, rod velocity, and Lorentz force.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3" data-id="transformer">
+            <div class="p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">3. Mutual Induction (Transformer)</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">Guided magnetic flux lines circulating smoothly through the laminated iron core.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3" data-id="induction_cooktop">
+            <div class="p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-fire-burner"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">4. Induction Cooktop (Joule Heating)</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">25 kHz AC field inducing skin-depth eddy currents that boil water in pans.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3" data-id="eddy_pipe">
+            <div class="p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">5. Magnet in Copper Pipe</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">Neodymium magnet falling slowly through copper, aluminum, and plastic tubes.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3" data-id="ac_generator">
+            <div class="p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-rotate"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">6. AC Generator (Alternator)</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">Rotating coil in static field generating alternating sine voltage.</p>
+            </div>
+          </div>
+
+          <div class="topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3" data-id="jumping_ring">
+            <div class="p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5"><i class="fa-solid fa-circle-arrow-up"></i></div>
+            <div>
+              <div class="text-xs font-bold text-white">7. Elihu Thomson's Jumping Ring</div>
+              <p class="text-[11px] text-purple-300 leading-tight mt-0.5">AC electromagnet launching aluminum ring via repulsive inductive phase shift.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Share Link Modal -->
+  <div id="shareModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#1e0f3d] border-2 border-yellow-400/70 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-white">
+      <button id="closeShareModal" class="absolute top-4 right-4 text-purple-300 hover:text-white transition w-8 h-8 rounded-lg bg-purple-900/50 flex items-center justify-center">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-11 h-11 rounded-xl bg-yellow-400 text-purple-950 flex items-center justify-center font-black text-xl shadow-lg shadow-yellow-400/30">
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+        <div>
+          <div class="text-[10px] font-mono font-bold text-yellow-300 uppercase tracking-widest">THE PHYSICS ROOM BY MAYUR SIR</div>
+          <h3 class="text-base font-bold text-white">Share Interactive Simulation</h3>
+        </div>
+      </div>
+
+      <p class="text-xs text-purple-200 mt-1 mb-4 leading-relaxed">
+        Share this exact experiment with students or colleagues. Your chosen experiment, field direction, coil geometry, and parameters are preserved in the link!
+      </p>
+
+      <div class="my-3">
+        <label class="text-xs text-yellow-300 font-semibold block mb-1.5 flex items-center gap-1.5">
+          <i class="fa-solid fa-link"></i> Direct URL:
+        </label>
+        <div class="flex items-center gap-2">
+          <input type="text" id="shareUrlInput" readonly class="w-full bg-[#120726] border border-purple-700/80 rounded-xl px-3 py-2.5 text-xs text-yellow-300 font-mono select-all focus:outline-none focus:border-yellow-400">
+          <button id="copyShareBtn" class="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-extrabold rounded-xl text-xs whitespace-nowrap transition active:scale-95 shadow-md shadow-yellow-400/25 flex items-center gap-1.5 border border-yellow-200">
+            <i class="fa-regular fa-copy"></i>
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-purple-300 bg-purple-950/70 p-3 rounded-xl border border-purple-800/60 flex items-start gap-2 mt-4">
+        <i class="fa-solid fa-circle-check text-yellow-400 mt-0.5"></i>
+        <span>Works seamlessly on phones, tablets (Samsung, iPad), and desktop browsers without installation.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 bg-yellow-400 text-purple-950 font-extrabold px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-3 z-50 flex items-center gap-2 text-xs border border-white">
+    <i class="fa-solid fa-circle-check text-base"></i>
+    <span id="toastMsg">Share link copied to clipboard!</span>
+  </div>
+
+  <script>
+    // --- Master 25-Question Test Bank ---
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        category: "Lenz's Law",
+        question: "A planar conducting loop enters a region of uniform magnetic field directed perpendicularly INTO the screen. What is the direction of the induced current during entry?",
+        options: [
+          "Clockwise (CW)",
+          "Counter-Clockwise (CCW)",
+          "Zero current is induced",
+          "Alternating back and forth"
+        ],
+        correct: 1,
+        explanation: "As the loop enters, inward magnetic flux increases. By Lenz's Law, the loop induces an outward opposing field. By the right-hand grip rule, an outward magnetic field requires a Counter-Clockwise (CCW) current."
+      },
+      {
+        id: 2,
+        category: "Faraday's Law",
+        question: "A rigid closed conducting loop moves with uniform velocity completely INSIDE a static, uniform perpendicular magnetic field. What is the net induced EMF?",
+        options: [
+          "Zero",
+          "E = B * L * v",
+          "E = B * A * omega",
+          "E = Infinity"
+        ],
+        correct: 0,
+        explanation: "Because the field is uniform and the entire loop is already inside, the enclosed magnetic flux is constant. Since d(Phi)/dt = 0, Faraday's law gives exactly zero net induced EMF."
+      },
+      {
+        id: 3,
+        category: "Motional EMF",
+        question: "A conductive rod slides rightward across parallel rails connected on the left by a resistor R in a field directed into the page. What is the direction of the magnetic force on the rod?",
+        options: [
+          "Directed to the right (speeding it up)",
+          "Directed to the left (opposing motion)",
+          "Directed upward along the rod",
+          "Zero magnetic force"
+        ],
+        correct: 1,
+        explanation: "The induced current flows UP through the rod. By the Lorentz force law F = I(L x B), an upward current in an inward field produces a force pointing to the left, which brakes the rod in accordance with energy conservation."
+      },
+      {
+        id: 4,
+        category: "Lenz's Law",
+        question: "The North pole of a bar magnet is pulled rapidly AWAY from the front face of a stationary copper ring. How does the ring behave mechanically toward the magnet?",
+        options: [
+          "It repels the receding magnet",
+          "It is attracted toward the receding magnet",
+          "It experiences zero net magnetic force",
+          "It begins spinning about its own diameter"
+        ],
+        correct: 1,
+        explanation: "When the North pole moves away, rightward flux decreases. To oppose this loss of flux, the copper ring induces an attractive South pole on its near face to pull the magnet back."
+      },
+      {
+        id: 5,
+        category: "Lenz's Law",
+        question: "Which fundamental conservation law directly underpins Lenz's law?",
+        options: [
+          "Conservation of linear momentum",
+          "Conservation of electric charge",
+          "Conservation of energy",
+          "Conservation of angular momentum"
+        ],
+        correct: 2,
+        explanation: "If the induced field aided the change instead of opposing it, an initial push would create self-reinforcing acceleration and infinite energy without mechanical work, violating Conservation of Energy."
+      },
+      {
+        id: 6,
+        category: "Eddy Currents",
+        question: "A strong neodymium magnet is dropped through three identical vertical tubes: copper, aluminum, and plastic. In which tube is transit time the longest?",
+        options: [
+          "Plastic tube",
+          "Aluminum tube",
+          "Copper tube",
+          "Transit times are identical in all three"
+        ],
+        correct: 2,
+        explanation: "Copper has the highest electrical conductivity (sigma). It generates the strongest circulating eddy currents, producing maximum upward magnetic drag force and the lowest terminal velocity."
+      },
+      {
+        id: 7,
+        category: "Faraday's Law",
+        question: "A perpendicular magnetic field across a loop of area A changes according to B(t) = B0 + alpha * t^2. What is the magnitude of the induced EMF at time t?",
+        options: [
+          "alpha * A * t",
+          "2 * alpha * A * t",
+          "alpha * A * t^2",
+          "Zero"
+        ],
+        correct: 1,
+        explanation: "Flux is Phi(t) = B(t)*A = (B0 + alpha*t^2)*A. Differentiating with respect to time yields |EMF| = |dPhi/dt| = 2*alpha*A*t."
+      },
+      {
+        id: 8,
+        category: "Motional EMF",
+        question: "A conducting rod of length L rotates about one stationary end with constant angular speed omega in a uniform perpendicular field B. What EMF is induced across its endpoints?",
+        options: [
+          "B * omega * L^2",
+          "(1/2) * B * omega * L^2",
+          "2 * B * omega * L^2",
+          "(1/4) * B * omega * L^2"
+        ],
+        correct: 1,
+        explanation: "The linear speed of a segment dr at radius r is v = omega*r. Integrating dE = B*v*dr = B*omega*r*dr from 0 to L yields (1/2)*B*omega*L^2."
+      },
+      {
+        id: 9,
+        category: "Eddy Currents",
+        question: "Why are induction cooktop cookware pots made of ferromagnetic stainless steel or cast iron rather than copper or glass?",
+        options: [
+          "High magnetic permeability concentrates flux and higher resistivity produces intense Joule heating",
+          "Ferromagnetic metals have zero electrical resistance",
+          "Glass generates too much heat and would crack the cooktop",
+          "Copper reflects the high frequency magnetic waves entirely"
+        ],
+        correct: 0,
+        explanation: "Induction cooktops rely on high permeability (mu) to confine flux to a thin skin depth and moderate electrical resistivity (R) to dissipate power as heat via P = I^2*R."
+      },
+      {
+        id: 10,
+        category: "Transformers",
+        question: "An ideal transformer has Np = 100 primary turns and Ns = 500 secondary turns. If 20 V AC is applied to the primary, what is the secondary potential?",
+        options: [
+          "4 V",
+          "20 V",
+          "100 V",
+          "500 V"
+        ],
+        correct: 2,
+        explanation: "For an ideal transformer, Vs / Vp = Ns / Np. Thus Vs = 20 V * (500 / 100) = 100 V (Step-up transformer)."
+      },
+      {
+        id: 11,
+        category: "Transformers",
+        question: "What happens if a steady, direct current (12 V DC battery) is connected to the primary winding of an ideal transformer?",
+        options: [
+          "The secondary produces a constant 12 V DC",
+          "The secondary produces stepped-up DC voltage",
+          "Zero steady-state EMF is induced in the secondary",
+          "The transformer outputs high frequency AC"
+        ],
+        correct: 2,
+        explanation: "Steady DC produces constant magnetic flux in the core. Because dPhi/dt = 0, no electromotive force is induced in the secondary winding after the initial switch-on transient."
+      },
+      {
+        id: 12,
+        category: "Transformers",
+        question: "In Elihu Thomson's jumping ring demonstration, why does sustained net upward repulsion launch the aluminum ring when AC is energized?",
+        options: [
+          "Electrostatic charge accumulation on the ring",
+          "Self-inductance causes the induced ring current to phase-lag the magnetic flux",
+          "Thermal expansion of the iron core pushes it upward",
+          "Diamagnetic repulsion of room-temperature aluminum"
+        ],
+        correct: 1,
+        explanation: "The electrical inductance of the solid ring creates an inductive phase lag (theta ~ 90 deg) between the magnetic flux and the induced current, making the time-averaged Lorentz force repulsive."
+      },
+      {
+        id: 13,
+        category: "Transformers",
+        question: "If the aluminum ring in the jumping ring experiment is cooled in liquid nitrogen (77 K) before energizing, what occurs?",
+        options: [
+          "The ring does not jump at all",
+          "The ring jumps significantly higher",
+          "The ring becomes superconducting and sticks to the base",
+          "The jump height remains completely unchanged"
+        ],
+        correct: 1,
+        explanation: "Cooling dramatically drops the electrical resistivity (rho) of aluminum. This allows a much larger induced eddy current to circulate, producing far stronger repulsive Lorentz force."
+      },
+      {
+        id: 14,
+        category: "Faraday's Law",
+        question: "A loop of wire with a small gap (open circuit) moves into a magnetic field. What appears across the gap terminals?",
+        options: [
+          "A massive circulating electric current",
+          "An electric potential difference (EMF) without steady current",
+          "Zero potential difference and zero electric field",
+          "A magnetic monopole"
+        ],
+        correct: 1,
+        explanation: "The changing magnetic flux induces a non-conservative electric field in the wire, creating an open-circuit potential difference (EMF) across the terminal gap even though current cannot flow."
+      },
+      {
+        id: 15,
+        category: "AC Generator",
+        question: "A planar coil of N turns and area A rotates with angular frequency omega in a uniform field B. What is the peak output EMF?",
+        options: [
+          "N * B * A",
+          "N * B * A * omega",
+          "(1/2) * N * B * A * omega^2",
+          "N * B * A / omega"
+        ],
+        correct: 1,
+        explanation: "Flux is Phi(t) = N*B*A*cos(omega*t). By Faraday's Law, E(t) = -dPhi/dt = N*B*A*omega*sin(omega*t). The peak amplitude is E_max = N*B*A*omega."
+      },
+      {
+        id: 16,
+        category: "Transformers",
+        question: "Why are transformer cores made from thin laminated sheets insulated from each other rather than a single solid block of iron?",
+        options: [
+          "To reduce hysteresis loss",
+          "To reduce energy loss caused by circulating eddy currents",
+          "To lower the weight and cost of the transformer",
+          "To prevent the core from becoming magnetized"
+        ],
+        correct: 1,
+        explanation: "Solid iron provides large cross-sectional loops for eddy currents. Lamination slices the conductive path into thin strips, increasing resistance and drastically cutting I^2*R eddy current heating losses."
+      },
+      {
+        id: 17,
+        category: "Faraday's Law",
+        question: "An equilateral triangular conducting loop enters a uniform perpendicular field base-first at constant speed. How does induced EMF vary during entry?",
+        options: [
+          "It remains constant",
+          "It decreases linearly over time",
+          "It increases linearly over time",
+          "It increases quadratically over time"
+        ],
+        correct: 1,
+        explanation: "As the triangle enters base-first, the width of the entering boundary segment decreases linearly toward the apex. Therefore, dA/dt decreases linearly, causing induced EMF to decrease linearly."
+      },
+      {
+        id: 18,
+        category: "Faraday's Law",
+        question: "What is the SI unit of magnetic flux?",
+        options: [
+          "Tesla (T)",
+          "Weber (Wb)",
+          "Henry (H)",
+          "Gauss (G)"
+        ],
+        correct: 1,
+        explanation: "Magnetic flux is measured in Webers (Wb), where 1 Wb = 1 Tesla * meter^2 = 1 Volt * second."
+      },
+      {
+        id: 19,
+        category: "Motional EMF",
+        question: "A square loop of resistance R enters a field B at speed v. If speed is doubled to 2v, what happens to the power dissipated as heat in the loop?",
+        options: [
+          "It doubles (2x)",
+          "It quadruples (4x)",
+          "It increases eightfold (8x)",
+          "It stays the same"
+        ],
+        correct: 1,
+        explanation: "Induced EMF is proportional to v (E = B*L*v). Power dissipation is P = E^2 / R = (B*L*v)^2 / R. Doubling the speed quadruples the electrical power dissipated."
+      },
+      {
+        id: 20,
+        category: "Lenz's Law",
+        question: "Two coaxial circular loops lie parallel to each other. Loop 1 carries a clockwise current that is steadily INCREASING. What current is induced in Loop 2 as seen from the same side?",
+        options: [
+          "Clockwise current",
+          "Counter-Clockwise current",
+          "Zero current",
+          "Current flowing radially outward"
+        ],
+        correct: 1,
+        explanation: "Increasing clockwise current produces an increasing magnetic field pointing away from the observer. By Lenz's law, Loop 2 induces a magnetic field pointing toward the observer, requiring Counter-Clockwise current."
+      },
+      {
+        id: 21,
+        category: "Motional EMF",
+        question: "A rod of length L and mass m slides down frictionless conducting rails tilted at angle theta in a vertical field B. Why does the rod reach a steady terminal velocity?",
+        options: [
+          "Mechanical friction with the rails balances gravity",
+          "The upward component of the induced Lorentz force balances the downward gravitational component",
+          "Air resistance balances gravity",
+          "Magnetic field strength decreases as the rod moves downward"
+        ],
+        correct: 1,
+        explanation: "As speed increases, induced current increases, raising the horizontal magnetic braking force. Terminal velocity occurs when the component of magnetic force along the incline balances mg*sin(theta)."
+      },
+      {
+        id: 22,
+        category: "Faraday's Law",
+        question: "How does Faraday's law of induction appear in Maxwell's equations in differential form?",
+        options: [
+          "curl(E) = - dB/dt",
+          "div(B) = 0",
+          "curl(B) = mu0 * J",
+          "div(E) = rho / epsilon0"
+        ],
+        correct: 0,
+        explanation: "Faraday's law in differential form is curl(E) = -dB/dt, stating that a time-varying magnetic field generates a spatially curling (non-conservative) electric field."
+      },
+      {
+        id: 23,
+        category: "Eddy Currents",
+        question: "A solid copper plate swings like a pendulum between the poles of a strong electromagnet. When current is switched on, what happens?",
+        options: [
+          "The pendulum swings faster",
+          "The plate comes to a rapid halt due to electromagnetic braking",
+          "The plate is magnetically attracted and sticks to one pole",
+          "The plate begins rotating"
+        ],
+        correct: 1,
+        explanation: "Eddy currents swirl in the solid copper sheet as it enters and leaves the field, dissipating kinetic energy into thermal Joule heat and rapidly damping the motion."
+      },
+      {
+        id: 24,
+        category: "Eddy Currents",
+        question: "If comb-like vertical slits are cut into the copper pendulum plate, what happens to the braking effect?",
+        options: [
+          "The braking effect is substantially reduced",
+          "The braking effect becomes twice as strong",
+          "The plate halts instantly without any oscillation",
+          "The plate shatters due to magnetic stress"
+        ],
+        correct: 0,
+        explanation: "The slits interrupt large circulating loops, forcing eddy currents into tiny paths with much higher resistance and drastically cutting the magnetic braking force."
+      },
+      {
+        id: 25,
+        category: "Faraday's Law",
+        question: "What is the direction of the non-conservative electric field induced in a circular loop when an inward perpendicular field is INCREASING?",
+        options: [
+          "Radially outward from the center",
+          "Radially inward toward the center",
+          "Tangential in a Counter-Clockwise direction",
+          "Tangential in a Clockwise direction"
+        ],
+        correct: 2,
+        explanation: "Inward flux is increasing, so the induced electric field curls Counter-Clockwise to push positive charges counter-clockwise, creating an opposing outward magnetic field."
+      }
+    ];
+
+    const state = {
+      activeExperiment: 'coil_entry',
+      running: true,
+      showVectors: true,
+
+      // Experiment 8: Master Quiz State
+      quiz: {
+        currentQuestionIndex: 0,
+        userAnswers: [],
+        score: 0,
+        showScorecard: false
+      },
+
+      // Experiment 1: Coil Entering B-Field
+      coilEntry: {
+        shape: 'circle',
+        bDir: 'into',
+        bStrength: 1.0,
+        motionDir: 'auto',
+        coilX: 60,
+        vx: 80,
+        size: 70,
+        fieldLeft: 180,
+        fieldWidth: 260,
+        flux: 0,
+        prevFlux: 0,
+        dFluxDt: 0,
+        inducedEMF: 0,
+        currentDir: 'None',
+        particleOffset: 0,
+        history: [],
+        customPoints: [
+          { x: -0.8, y: -0.6 },
+          { x: 0.1, y: -0.8 },
+          { x: 0.9, y: -0.2 },
+          { x: 0.5, y: 0.7 },
+          { x: -0.6, y: 0.6 }
+        ]
+      },
+
+      // Experiment 2: Motional EMF
+      motional: {
+        rodX: 180,
+        vx: 50,
+        bStrength: 1.2,
+        bDir: 'into',
+        resistance: 5.0,
+        currentDir: 'CCW',
+        electronPhase: 0,
+        isDragging: false
+      },
+
+      // Experiment 3: Mutual Induction
+      transformer: {
+        frequency: 1.0,
+        primaryTurns: 8,
+        secondaryTurns: 16,
+        phase: 0,
+        fluxLinesPhase: 0,
+        vPrimaryAmp: 12
+      },
+
+      // Experiment 4: Induction Cooktop
+      cooktop: {
+        powerOn: true,
+        powerLevel: 8,
+        panType: 'cast_iron',
+        panOnSurface: true,
+        panLiftY: 0,
+        temperature: 24,
+        boilingTime: 0,
+        bubbles: [],
+        steamParticles: [],
+        coilPhase: 0
+      },
+
+      // Experiment 5: Eddy Pipe
+      eddy: {
+        pipeMaterial: 'copper',
+        magnetY: 40,
+        vy: 0,
+        inPipe: false,
+        swirlPhase: 0
+      },
+
+      // Experiment 6: AC Generator
+      generator: {
+        angle: 0,
+        rpm: 45,
+        bField: 1.0,
+        turns: 10,
+        sineHistory: []
+      },
+
+      // Experiment 7: Jumping Ring
+      jumping: {
+        ringY: 0,
+        vy: 0,
+        powerOn: false,
+        frequency: 60
+      }
+    };
+
+    // DOM Bindings
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('canvasContainer');
+
+    const expTabs = document.querySelectorAll('.exp-tab');
+    const topicItems = document.querySelectorAll('.topic-item');
+    const currentExpBadge = document.getElementById('currentExpBadge');
+    const primaryActionBtn = document.getElementById('primaryActionBtn');
+    const actionBtnText = document.getElementById('actionBtnText');
+    const actionIcon = document.getElementById('actionIcon');
+    const resetExpBtn = document.getElementById('resetExpBtn');
+    const toggleVectors = document.getElementById('toggleVectors');
+    const vectorsCheckboxContainer = document.getElementById('vectorsCheckboxContainer');
+    const statLabel1 = document.getElementById('statLabel1');
+    const statValue1 = document.getElementById('statValue1');
+    const formulaTitle = document.getElementById('formulaTitle');
+    const formulaMath = document.getElementById('formulaMath');
+    const formulaDesc = document.getElementById('formulaDesc');
+    const expExplanation = document.getElementById('expExplanation');
+    const dynamicControls = document.getElementById('dynamicControls');
+    const panelHeaderTitle = document.getElementById('panelHeaderTitle');
+    const panelHeaderIcon = document.getElementById('panelHeaderIcon');
+    const panelSubtext = document.getElementById('panelSubtext');
+    const formulaCardOverlay = document.getElementById('formulaCardOverlay');
+    const quickQuizHeaderBtn = document.getElementById('quickQuizHeaderBtn');
+
+    const shareExpBtn = document.getElementById('shareExpBtn');
+    const shareModal = document.getElementById('shareModal');
+    const closeShareModal = document.getElementById('closeShareModal');
+    const shareUrlInput = document.getElementById('shareUrlInput');
+    const copyShareBtn = document.getElementById('copyShareBtn');
+    const toastNotification = document.getElementById('toastNotification');
+    const toastMsg = document.getElementById('toastMsg');
+
+    function showToast(message) {
+      toastMsg.textContent = message;
+      toastNotification.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+      toastNotification.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toastNotification.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+        toastNotification.classList.remove('opacity-100', 'translate-y-0');
+      }, 2600);
+    }
+
+    function resizeCanvas() {
+      const rect = container.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.resetTransform();
+      ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawArrow(ctx, fromx, fromy, tox, toy) {
+      const headlen = 7;
+      const dx = tox - fromx;
+      const dy = toy - fromy;
+      const angle = Math.atan2(dy, dx);
+      ctx.beginPath();
+      ctx.moveTo(fromx, fromy);
+      ctx.lineTo(tox, toy);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    const EXPERIMENT_CONFIGS = {
+      coil_entry: {
+        title: "1. Any Shape Coil Entering B-Field",
+        actionBtn: "Pause / Resume Motion",
+        actionIcon: "fa-play",
+        statName: "Induced Current:",
+        formulaName: "Faraday-Lenz Law for Translating Loop",
+        formula: "&Epsilon; = &minus; d&Phi;<sub>B</sub> / dt = &minus; B &middot; (dA / dt)",
+        desc: "As the loop area inside B changes, flux changes. Current circulates to generate a counter-field opposing the change.",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> When a closed conducting loop of <em>any shape</em> enters or exits a bounded perpendicular magnetic field $\\vec{B}$, the effective flux $\\Phi_B = \\int \\vec{B} \\cdot d\\vec{A}$ continuously changes with time.<br><br>&bull; <strong>Entering with $\\vec{B}$ into the screen ($\\otimes$):</strong> Inward flux increases $\\rightarrow$ the loop induces an opposing outward field ($\\odot$) by driving <strong>Counter-Clockwise (CCW)</strong> current.<br>&bull; <strong>Inside the uniform field:</strong> $\\frac{d\\Phi}{dt} = 0$, so induced current immediately drops to <strong>ZERO</strong>!<br>&bull; <strong>Exiting:</strong> Inward flux is vanishing $\\rightarrow$ loop drives <strong>Clockwise (CW)</strong> current to replenish it.",
+        controls: `
+          <div class="flex flex-col gap-1.5">
+            <span class="text-xs text-purple-200 font-semibold">Select Coil Shape</span>
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button class="shape-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 shadow" data-shape="circle">Circle</button>
+              <button class="shape-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-shape="square">Square</button>
+              <button class="shape-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-shape="triangle">Triangle</button>
+              <button class="shape-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-shape="ellipse">Ellipse</button>
+              <button class="shape-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-shape="hexagon">Hexagon</button>
+              <button class="shape-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-shape="custom">Custom Poly</button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <span class="text-xs text-purple-200 font-semibold">Magnetic Field Direction (&vec;B)</span>
+            <div class="grid grid-cols-2 gap-1.5 text-xs">
+              <button id="bIntoBtn" class="b-dir-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow" data-dir="into">
+                <span>Into Screen (&otimes;)</span>
+              </button>
+              <button id="bOutBtn" class="b-dir-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5" data-dir="out">
+                <span>Out of Screen (&odot;)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <span class="text-xs text-purple-200 font-semibold">Motion &amp; Direction Control</span>
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button id="btnEnterLeft" class="motion-btn py-1.5 px-2 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700/50 text-[11px] font-medium flex items-center justify-center gap-1">
+                Enter Left &rarr;
+              </button>
+              <button id="btnAutoBounce" class="motion-btn py-1.5 px-2 rounded-lg bg-yellow-400/20 border border-yellow-400/60 text-yellow-300 text-[11px] font-bold flex items-center justify-center gap-1">
+                Auto Loop &harr;
+              </button>
+              <button id="btnEnterRight" class="motion-btn py-1.5 px-2 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700/50 text-[11px] font-medium flex items-center justify-center gap-1">
+                &larr; Enter Right
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Manual Coil Position (X)</span>
+              <span id="coilXLabel" class="font-mono text-yellow-300 font-bold">60 px</span>
+            </div>
+            <input type="range" id="coilXSlider" min="20" max="600" value="60" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+            <span class="text-[10px] text-purple-300/80 italic">Tip: You can also drag the coil directly across the canvas!</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Magnetic Field Strength (B)</span>
+              <span id="bStrengthLabel" class="font-mono text-yellow-300 font-bold">1.0 Tesla</span>
+            </div>
+            <input type="range" id="bStrengthSlider" min="0.2" max="2.5" step="0.1" value="1.0" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+        `
+      },
+
+      moting_emf: {
+        title: "2. Motional EMF (Sliding Rod on Rails)",
+        actionBtn: "Flip Rod Velocity",
+        actionIcon: "fa-arrows-left-right",
+        statName: "Induced EMF:",
+        formulaName: "Lorentz Force Law & Closed Circuit Motional EMF",
+        formula: "&Epsilon; = B &middot; L &middot; v &nbsp;|&nbsp; I = &Epsilon; / R &nbsp;|&nbsp; F<sub>Lorentz</sub> = I &middot; L &middot; B",
+        desc: "Charges inside the moving rod experience magnetic Lorentz force q(v &times; B), circulating current through the left load resistor.",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> As the conductive rod slides with velocity $\\vec{v}$ over parallel rails in a perpendicular field $\\vec{B}$, free conduction electrons feel the magnetic Lorentz force $\\vec{F} = q(\\vec{v} \\times \\vec{B})$. This drives current across the rod and back through the <strong>load resistor ($R$) on the left</strong>. By Lenz's Law, this induced current experiences an opposing backward Lorentz force $\\vec{F} = I(\\vec{L} \\times \\vec{B})$ that acts as magnetic braking!",
+        controls: `
+          <div class="flex flex-col gap-1.5">
+            <span class="text-xs text-purple-200 font-semibold">Magnetic Field Direction (&vec;B)</span>
+            <div class="grid grid-cols-2 gap-1.5 text-xs">
+              <button id="motBIntoBtn" class="mot-b-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow" data-dir="into">
+                <span>Into Screen (&otimes;)</span>
+              </button>
+              <button id="motBOutBtn" class="mot-b-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5" data-dir="out">
+                <span>Out of Screen (&odot;)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <span class="text-xs text-purple-200 font-semibold">Motion Direction (Velocity)</span>
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button id="motLeftBtn" class="py-1.5 px-2 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700/50 text-[11px] font-medium flex items-center justify-center gap-1">
+                &larr; Slide Left
+              </button>
+              <button id="motStopBtn" class="py-1.5 px-2 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700/50 text-[11px] font-medium flex items-center justify-center gap-1">
+                Hold (v=0)
+              </button>
+              <button id="motRightBtn" class="py-1.5 px-2 rounded-lg bg-yellow-400/20 border border-yellow-400/60 text-yellow-300 text-[11px] font-bold flex items-center justify-center gap-1">
+                Slide Right &rarr;
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Rod Velocity (v)</span>
+              <span id="motVelLabel" class="font-mono text-yellow-300 font-bold">+1.2 m/s</span>
+            </div>
+            <input type="range" id="motVelSlider" min="-2.5" max="2.5" step="0.1" value="1.2" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Left Circuit Load Resistor (R)</span>
+              <span id="motResLabel" class="font-mono text-yellow-300 font-bold">5.0 &Omega;</span>
+            </div>
+            <input type="range" id="motResSlider" min="1.0" max="20.0" step="0.5" value="5.0" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+        `
+      },
+
+      transformer: {
+        title: "3. Mutual Induction (Transformer)",
+        actionBtn: "Toggle Primary AC Current",
+        actionIcon: "fa-plug-circle-bolt",
+        statName: "Secondary EMF:",
+        formulaName: "Ideal Transformer Ratio & Core Magnetic Flux",
+        formula: "V<sub>s</sub> / V<sub>p</sub> = N<sub>s</sub> / N<sub>p</sub> &nbsp;|&nbsp; &Phi;<sub>core</sub>(t) = &Phi;<sub>max</sub> &middot; cos(&omega;t)",
+        desc: "AC in the primary winding creates time-varying flux in the laminated iron core, inducing secondary EMF.",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> Mutual induction allows contactless power transmission. Alternating current in the primary winding produces an oscillating magnetic flux that is channeled around the laminated iron core directly through the secondary winding. The induced secondary voltage scales directly with the turns ratio ($N_s / N_p$) with a 180&deg; phase shift.",
+        controls: `
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Secondary Turns (N<sub>s</sub>)</span>
+              <span id="secTurnsLabel" class="font-mono text-yellow-300 font-bold">16 turns (Step-up 2.0x)</span>
+            </div>
+            <input type="range" id="secTurnsSlider" min="4" max="24" step="4" value="16" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Primary AC Frequency</span>
+              <span id="acFreqLabel" class="font-mono text-yellow-300 font-bold">1.0 Hz</span>
+            </div>
+            <input type="range" id="acFreqSlider" min="0.5" max="3.0" step="0.25" value="1.0" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+        `
+      },
+
+      induction_cooktop: {
+        title: "4. Induction Cooktop (Joule Heating)",
+        actionBtn: "Toggle Burner Power",
+        actionIcon: "fa-power-off",
+        statName: "Pot Temperature:",
+        formulaName: "Eddy Dissipation & Skin Depth",
+        formula: "P = I<sup>2</sup> &middot; R &nbsp;|&nbsp; &delta; = &radic;( &rho; / (&pi; f &mu;) )",
+        desc: "25 kHz alternating current creates high-frequency magnetic oscillation, inducing localized eddy currents inside the pot base.",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> Induction cooktops heat cookware directly using high-frequency electromagnetic induction instead of thermal conduction from a flame. A copper coil beneath ceramic glass oscillates at ~25 kHz. The rapid flux oscillation induces swirling <strong>eddy currents</strong> in the base of a ferrous pan. Electrical resistance converts this induced current to heat ($P = I^2 R$). The glass surface remains safe to touch, and lifting the pan immediately stops induction!",
+        controls: `
+          <div class="flex flex-col gap-1.5">
+            <span class="text-xs text-purple-200 font-semibold">Cookware Pan Material</span>
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button class="pan-mat-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 shadow" data-pan="cast_iron">Cast Iron / Steel</button>
+              <button class="pan-mat-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-pan="copper">Aluminum/Copper</button>
+              <button class="pan-mat-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-pan="ceramic">Glass / Ceramic</button>
+            </div>
+            <span id="panNote" class="text-[11px] text-yellow-300 font-medium mt-0.5">High magnetic permeability (&mu;<sub>r</sub>) &amp; resistance: Ideal for intense Joule heating!</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Burner Power Level</span>
+              <span id="cooktopPowerLabel" class="font-mono text-yellow-300 font-bold">Level 8 (1760W)</span>
+            </div>
+            <input type="range" id="cooktopPowerSlider" min="0" max="10" step="1" value="8" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+
+          <div class="flex flex-col gap-1.5 pt-1">
+            <span class="text-xs text-purple-200 font-semibold">Pan Placement</span>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <button id="btnPanDown" class="py-2 px-3 rounded-lg font-bold bg-yellow-400 text-purple-950 flex items-center justify-center gap-1.5 shadow">
+                <i class="fa-solid fa-arrow-down"></i> On Cooktop
+              </button>
+              <button id="btnPanLift" class="py-2 px-3 rounded-lg font-semibold bg-purple-900/60 text-purple-200 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-arrow-up"></i> Lift Pan Off
+              </button>
+            </div>
+          </div>
+        `
+      },
+
+      eddy_pipe: {
+        title: "5. Magnet in Copper Pipe (Eddy Current Drag)",
+        actionBtn: "Drop Magnet Again",
+        actionIcon: "fa-arrow-down",
+        statName: "Fall Speed:",
+        formulaName: "Magnetic Drag & Terminal Velocity",
+        formula: "F<sub>drag</sub> &prop; &sigma; &middot; B<sup>2</sup> &middot; v",
+        desc: "Eddy currents circulating in high-conductivity pipe produce an opposing upward magnetic force balancing gravity.",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> When a strong neodymium magnet falls through a copper pipe, its moving flux induces circular eddy currents in the pipe walls. By Lenz's law, the induced current in the wall ahead creates a matching magnetic pole to repel the magnet, while current behind creates an opposite pole to attract it, achieving slow, levitating terminal velocity!",
+        controls: `
+          <div class="flex flex-col gap-1.5">
+            <span class="text-xs text-purple-200 font-semibold">Pipe Material (Conductivity &sigma;)</span>
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button class="pipe-mat-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 shadow" data-mat="copper">Copper (High)</button>
+              <button class="pipe-mat-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-mat="aluminum">Alum (Mid)</button>
+              <button class="pipe-mat-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50" data-mat="plastic">Plastic (Zero)</button>
+            </div>
+          </div>
+        `
+      },
+
+      ac_generator: {
+        title: "6. AC Generator (Alternator)",
+        actionBtn: "Toggle Rotation",
+        actionIcon: "fa-rotate",
+        statName: "Output EMF:",
+        formulaName: "Generator Equation",
+        formula: "&Epsilon;(t) = N &middot; B &middot; A &middot; &omega; &middot; sin(&omega;t)",
+        desc: "Rotating a planar loop in a static magnetic field continuously alters the cross-sectional flux &Phi; = B &middot; A cos(&theta;).",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> Mechanical rotation spins a rectangular coil inside a uniform permanent magnetic field. As the angle $\\theta = \\omega t$ changes constantly with time, the flux $\\Phi(t)$ varies sinusoidally, inducing clean AC voltage across the slip rings.",
+        controls: `
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Rotation Speed (RPM)</span>
+              <span id="rpmLabel" class="font-mono text-yellow-300 font-bold">45 RPM</span>
+            </div>
+            <input type="range" id="rpmSlider" min="10" max="120" value="45" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+          <div class="flex flex-col gap-1.5 pt-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-purple-200 font-semibold">Magnetic Field (B)</span>
+              <span id="bFieldLabel" class="font-mono text-yellow-300 font-bold">1.0 Tesla</span>
+            </div>
+            <input type="range" id="bFieldSlider" min="0.2" max="2.0" step="0.1" value="1.0" class="w-full h-1.5 bg-purple-950 rounded-lg appearance-none cursor-pointer">
+          </div>
+        `
+      },
+
+      jumping_ring: {
+        title: "7. Elihu Thomson's Jumping Ring",
+        actionBtn: "Launch Ring!",
+        actionIcon: "fa-bolt-lightning",
+        statName: "Ring Height:",
+        formulaName: "Repulsive AC Phase Shift",
+        formula: "F<sub>net</sub> = &lang;i<sub>ring</sub>(t) &middot; B<sub>radial</sub>(t)&rang; &gt; 0",
+        desc: "Because the aluminum ring has self-inductance, its induced current lags the magnetic field, generating time-averaged upward repulsion.",
+        explanation: "<strong>Mayur Sir's Key Insight:</strong> When an AC electromagnet with an extended iron core is powered, an aluminum ring over the core shoots upwards. Due to the electrical inductance of the ring, the induced current experiences a phase delay, producing net time-averaged magnetic repulsion against the field.",
+        controls: `
+          <div class="flex flex-col gap-2">
+            <span class="text-xs text-purple-200 font-semibold">Demonstration Actions</span>
+            <button id="coolRingBtn" class="py-2 px-3 rounded-lg text-xs font-bold bg-purple-900 border border-yellow-400/50 text-yellow-300 hover:bg-purple-800 transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-snowflake"></i> Submerge in Liquid Nitrogen (Cooling)
+            </button>
+            <p class="text-[11px] text-purple-300/80">Cooling dramatically drops resistance ($\rho \downarrow$), multiplying the induced current and shooting the ring twice as high!</p>
+          </div>
+        `
+      },
+
+      master_quiz: {
+        title: "8. Master Quiz & Concept Test (25 Qs)",
+        actionBtn: "Next Question \u2192",
+        actionIcon: "fa-forward-step",
+        statName: "Quiz Progress:",
+        formulaName: "Assessment Mastery Analysis",
+        formula: "Score = ( &Sigma; Correct / 25 ) &times; 100%",
+        desc: "Interactive conceptual test assessing Lenz's Law, Motional EMF, Transformers, and Eddy Currents.",
+        explanation: "<strong>Mayur Sir's Quiz Instructions:</strong> Click on your chosen answer option (A, B, C, or D) directly on the screen or use the navigation controls on the right. You will receive <strong>instant step-by-step physical reasoning</strong> after answering each question, followed by a complete analytical scorecard at the end!",
+        controls: `
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-yellow-300 font-mono" id="quizCounterText">Question 1 of 25</span>
+              <span class="text-[11px] font-mono text-purple-300" id="quizScoreText">Score: 0/25</span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full h-2 bg-purple-950 rounded-full overflow-hidden border border-purple-800">
+              <div id="quizProgressBar" class="h-full bg-gradient-to-r from-yellow-400 to-amber-300 transition-all duration-300" style="width: 4%;"></div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button id="prevQuestionBtn" class="py-2 px-3 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700/60 font-semibold text-xs flex items-center justify-center gap-1.5 transition">
+                <i class="fa-solid fa-arrow-left"></i> Previous
+              </button>
+              <button id="nextQuestionBtn" class="py-2 px-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow transition">
+                Next <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Question Jump Matrix -->
+            <div class="flex flex-col gap-1.5 pt-2 border-t border-purple-800/60">
+              <span class="text-[11px] text-purple-300 font-semibold flex items-center justify-between">
+                <span>Jump to Question:</span>
+                <span class="text-[10px] text-yellow-300/80">1 - 25</span>
+              </span>
+              <div class="grid grid-cols-5 gap-1 text-[10px] font-mono max-h-36 overflow-y-auto p-1 bg-purple-950/60 rounded-lg border border-purple-800/40" id="questionMatrix">
+                <!-- Dynamically populated buttons -->
+              </div>
+            </div>
+
+            <button id="viewScorecardBtn" class="py-2 px-3 rounded-lg bg-purple-900 border border-yellow-400/50 text-yellow-300 font-bold text-xs hover:bg-purple-800 transition flex items-center justify-center gap-1.5 mt-1">
+              <i class="fa-solid fa-square-poll-vertical"></i> View Final Scorecard
+            </button>
+          </div>
+        `
+      }
+    };
+
+    function selectExperiment(id, skipReset = false) {
+      state.activeExperiment = id;
+      const cfg = EXPERIMENT_CONFIGS[id];
+      if (!cfg) return;
+
+      currentExpBadge.textContent = cfg.title;
+      formulaTitle.textContent = cfg.formulaName;
+      formulaMath.innerHTML = cfg.formula;
+      formulaDesc.textContent = cfg.desc;
+      expExplanation.innerHTML = cfg.explanation;
+      statLabel1.textContent = cfg.statName;
+      actionBtnText.textContent = cfg.actionBtn;
+      actionIcon.className = `fa-solid ${cfg.actionIcon}`;
+
+      if (id === 'master_quiz') {
+        panelHeaderTitle.textContent = "Test Navigation";
+        panelHeaderIcon.className = "fa-solid fa-graduation-cap text-yellow-400";
+        panelSubtext.textContent = "25 Questions";
+        formulaCardOverlay.classList.add('opacity-0', 'pointer-events-none');
+        vectorsCheckboxContainer.classList.add('hidden');
+      } else {
+        panelHeaderTitle.textContent = "Interactive Controls";
+        panelHeaderIcon.className = "fa-solid fa-sliders text-yellow-400";
+        panelSubtext.textContent = "Live Tweaks";
+        formulaCardOverlay.classList.remove('opacity-0', 'pointer-events-none');
+        vectorsCheckboxContainer.classList.remove('hidden');
+      }
+
+      expTabs.forEach(t => {
+        if (t.dataset.id === id) {
+          t.className = 'exp-tab px-3.5 py-2 rounded-lg font-bold transition whitespace-nowrap bg-gradient-to-r from-yellow-400 to-yellow-500 text-purple-950 shadow-md flex items-center gap-2';
+        } else {
+          t.className = 'exp-tab px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap text-purple-200 hover:text-white bg-purple-950/60 border border-purple-800/40 hover:border-purple-600 flex items-center gap-2';
+        }
+      });
+
+      topicItems.forEach(item => {
+        const icon = item.querySelector('div:first-child');
+        if (item.dataset.id === id) {
+          item.className = 'topic-item p-3 rounded-xl bg-purple-900/80 border-2 border-yellow-400 cursor-pointer transition flex items-start gap-3 shadow-lg shadow-purple-950/50';
+          if (icon) icon.className = 'p-2 rounded-lg bg-yellow-400 text-purple-950 text-xs shrink-0 mt-0.5';
+        } else {
+          item.className = 'topic-item p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-yellow-400/60 cursor-pointer transition flex items-start gap-3';
+          if (icon) icon.className = 'p-2 rounded-lg bg-purple-900 text-yellow-300 text-xs shrink-0 mt-0.5';
+        }
+      });
+
+      dynamicControls.innerHTML = cfg.controls;
+      attachDynamicListeners(id);
+      if (!skipReset) {
+        resetActiveExperiment();
+      }
+    }
+
+    function attachDynamicListeners(id) {
+      if (id === 'coil_entry') {
+        document.querySelectorAll('.shape-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.shape-btn').forEach(b => {
+              b.className = 'shape-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50';
+            });
+            btn.className = 'shape-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 shadow';
+            state.coilEntry.shape = btn.dataset.shape;
+          });
+        });
+
+        const bIntoBtn = document.getElementById('bIntoBtn');
+        const bOutBtn = document.getElementById('bOutBtn');
+        bIntoBtn?.addEventListener('click', () => {
+          state.coilEntry.bDir = 'into';
+          bIntoBtn.className = 'b-dir-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow';
+          bOutBtn.className = 'b-dir-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5';
+        });
+        bOutBtn?.addEventListener('click', () => {
+          state.coilEntry.bDir = 'out';
+          bOutBtn.className = 'b-dir-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow';
+          bIntoBtn.className = 'b-dir-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5';
+        });
+
+        document.getElementById('btnEnterLeft')?.addEventListener('click', () => {
+          state.coilEntry.motionDir = 'enter_left';
+          state.coilEntry.coilX = 50;
+          state.coilEntry.vx = 90;
+          state.running = true;
+        });
+        document.getElementById('btnAutoBounce')?.addEventListener('click', () => {
+          state.coilEntry.motionDir = 'auto';
+          state.coilEntry.vx = 80;
+          state.running = true;
+        });
+        document.getElementById('btnEnterRight')?.addEventListener('click', () => {
+          state.coilEntry.motionDir = 'enter_right';
+          const w = container.clientWidth || 600;
+          state.coilEntry.coilX = w - 60;
+          state.coilEntry.vx = -90;
+          state.running = true;
+        });
+
+        const coilSlider = document.getElementById('coilXSlider');
+        const coilXLabel = document.getElementById('coilXLabel');
+        coilSlider?.addEventListener('input', (e) => {
+          state.coilEntry.coilX = parseFloat(e.target.value);
+          state.coilEntry.motionDir = 'manual';
+          coilXLabel.textContent = `${Math.round(state.coilEntry.coilX)} px`;
+        });
+
+        const bStrengthSlider = document.getElementById('bStrengthSlider');
+        const bStrengthLabel = document.getElementById('bStrengthLabel');
+        bStrengthSlider?.addEventListener('input', (e) => {
+          state.coilEntry.bStrength = parseFloat(e.target.value);
+          bStrengthLabel.textContent = `${state.coilEntry.bStrength.toFixed(1)} Tesla`;
+        });
+
+      } else if (id === 'moting_emf') {
+        const motBIntoBtn = document.getElementById('motBIntoBtn');
+        const motBOutBtn = document.getElementById('motBOutBtn');
+
+        motBIntoBtn?.addEventListener('click', () => {
+          state.motional.bDir = 'into';
+          motBIntoBtn.className = 'mot-b-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow';
+          motBOutBtn.className = 'mot-b-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5';
+        });
+
+        motBOutBtn?.addEventListener('click', () => {
+          state.motional.bDir = 'out';
+          motBOutBtn.className = 'mot-b-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow';
+          motBIntoBtn.className = 'mot-b-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5';
+        });
+
+        const velSlider = document.getElementById('motVelSlider');
+        const velLabel = document.getElementById('motVelLabel');
+
+        velSlider?.addEventListener('input', (e) => {
+          const v = parseFloat(e.target.value);
+          state.motional.vx = v * 50;
+          velLabel.textContent = `${v >= 0 ? '+' : ''}${v.toFixed(1)} m/s`;
+        });
+
+        document.getElementById('motLeftBtn')?.addEventListener('click', () => {
+          state.motional.vx = -60;
+          if (velSlider) velSlider.value = -1.2;
+          if (velLabel) velLabel.textContent = "-1.2 m/s";
+        });
+        document.getElementById('motStopBtn')?.addEventListener('click', () => {
+          state.motional.vx = 0;
+          if (velSlider) velSlider.value = 0;
+          if (velLabel) velLabel.textContent = "0.0 m/s";
+        });
+        document.getElementById('motRightBtn')?.addEventListener('click', () => {
+          state.motional.vx = 60;
+          if (velSlider) velSlider.value = 1.2;
+          if (velLabel) velLabel.textContent = "+1.2 m/s";
+        });
+
+        const resSlider = document.getElementById('motResSlider');
+        const resLabel = document.getElementById('motResLabel');
+        resSlider?.addEventListener('input', (e) => {
+          state.motional.resistance = parseFloat(e.target.value);
+          resLabel.textContent = `${state.motional.resistance.toFixed(1)} \u03A9`;
+        });
+
+      } else if (id === 'transformer') {
+        const secSlider = document.getElementById('secTurnsSlider');
+        const secLabel = document.getElementById('secTurnsLabel');
+        secSlider?.addEventListener('input', (e) => {
+          state.transformer.secondaryTurns = parseInt(e.target.value, 10);
+          const ratio = (state.transformer.secondaryTurns / state.transformer.primaryTurns).toFixed(1);
+          secLabel.textContent = `${state.transformer.secondaryTurns} turns (${ratio}x)`;
+        });
+
+        const acFreqSlider = document.getElementById('acFreqSlider');
+        const acFreqLabel = document.getElementById('acFreqLabel');
+        acFreqSlider?.addEventListener('input', (e) => {
+          state.transformer.frequency = parseFloat(e.target.value);
+          acFreqLabel.textContent = `${state.transformer.frequency.toFixed(2)} Hz`;
+        });
+
+      } else if (id === 'induction_cooktop') {
+        document.querySelectorAll('.pan-mat-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.pan-mat-btn').forEach(b => {
+              b.className = 'pan-mat-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50';
+            });
+            btn.className = 'pan-mat-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 shadow';
+            state.cooktop.panType = btn.dataset.pan;
+
+            const note = document.getElementById('panNote');
+            if (state.cooktop.panType === 'cast_iron') {
+              note.textContent = "High magnetic permeability (\u03BC) & resistance: Rapid Joule heating & eddy dissipation!";
+              note.className = "text-[11px] text-yellow-300 font-medium mt-0.5";
+            } else if (state.cooktop.panType === 'copper') {
+              note.textContent = "Non-magnetic and resistance too low: Skin depth is deep, heating is very inefficient.";
+              note.className = "text-[11px] text-purple-300 font-medium mt-0.5";
+            } else {
+              note.textContent = "Insulator (ceramic/glass): Zero free electrons, no induced eddy currents at all!";
+              note.className = "text-[11px] text-rose-400 font-medium mt-0.5";
+            }
+          });
+        });
+
+        const pSlider = document.getElementById('cooktopPowerSlider');
+        const pLabel = document.getElementById('cooktopPowerLabel');
+        pSlider?.addEventListener('input', (e) => {
+          state.cooktop.powerLevel = parseInt(e.target.value, 10);
+          pLabel.textContent = `Level ${state.cooktop.powerLevel} (${state.cooktop.powerLevel * 220}W)`;
+        });
+
+        const btnPanDown = document.getElementById('btnPanDown');
+        const btnPanLift = document.getElementById('btnPanLift');
+        btnPanDown?.addEventListener('click', () => {
+          state.cooktop.panOnSurface = true;
+          state.cooktop.panLiftY = 0;
+          btnPanDown.className = 'py-2 px-3 rounded-lg font-bold bg-yellow-400 text-purple-950 flex items-center justify-center gap-1.5 shadow';
+          btnPanLift.className = 'py-2 px-3 rounded-lg font-semibold bg-purple-900/60 text-purple-200 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5';
+        });
+        btnPanLift?.addEventListener('click', () => {
+          state.cooktop.panOnSurface = false;
+          state.cooktop.panLiftY = 55;
+          btnPanLift.className = 'py-2 px-3 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 flex items-center justify-center gap-1.5 shadow';
+          btnPanDown.className = 'py-2 px-3 rounded-lg font-semibold bg-purple-900/60 text-purple-200 hover:text-white border border-purple-700/60 flex items-center justify-center gap-1.5';
+        });
+
+      } else if (id === 'eddy_pipe') {
+        document.querySelectorAll('.pipe-mat-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.pipe-mat-btn').forEach(b => {
+              b.className = 'pipe-mat-btn py-1.5 px-2 rounded-lg font-semibold bg-purple-900/60 text-purple-300 hover:text-white border border-purple-700/50';
+            });
+            btn.className = 'pipe-mat-btn py-1.5 px-2 rounded-lg font-bold bg-yellow-400 text-purple-950 border border-yellow-300 shadow';
+            state.eddy.pipeMaterial = btn.dataset.mat;
+          });
+        });
+
+      } else if (id === 'ac_generator') {
+        const rpmSlider = document.getElementById('rpmSlider');
+        const rpmLabel = document.getElementById('rpmLabel');
+        const bFieldSlider = document.getElementById('bFieldSlider');
+        const bFieldLabel = document.getElementById('bFieldLabel');
+
+        rpmSlider?.addEventListener('input', (e) => {
+          state.generator.rpm = parseInt(e.target.value, 10);
+          rpmLabel.textContent = `${state.generator.rpm} RPM`;
+        });
+        bFieldSlider?.addEventListener('input', (e) => {
+          state.generator.bField = parseFloat(e.target.value);
+          bFieldLabel.textContent = `${state.generator.bField.toFixed(1)} Tesla`;
+        });
+
+      } else if (id === 'jumping_ring') {
+        const coolBtn = document.getElementById('coolRingBtn');
+        coolBtn?.addEventListener('click', () => {
+          state.jumping.powerOn = true;
+          state.jumping.vy = -340;
+        });
+
+      } else if (id === 'master_quiz') {
+        updateQuizUIControls();
+
+        document.getElementById('prevQuestionBtn')?.addEventListener('click', () => {
+          if (state.quiz.currentQuestionIndex > 0) {
+            state.quiz.currentQuestionIndex--;
+            state.quiz.showScorecard = false;
+            updateQuizUIControls();
+          }
+        });
+
+        document.getElementById('nextQuestionBtn')?.addEventListener('click', () => {
+          if (state.quiz.currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
+            state.quiz.currentQuestionIndex++;
+            state.quiz.showScorecard = false;
+            updateQuizUIControls();
+          } else {
+            state.quiz.showScorecard = true;
+            updateQuizUIControls();
+          }
+        });
+
+        document.getElementById('viewScorecardBtn')?.addEventListener('click', () => {
+          state.quiz.showScorecard = true;
+          updateQuizUIControls();
+        });
+      }
+    }
+
+    function updateQuizUIControls() {
+      const qIdx = state.quiz.currentQuestionIndex;
+      const total = QUIZ_QUESTIONS.length;
+      const counterText = document.getElementById('quizCounterText');
+      const scoreText = document.getElementById('quizScoreText');
+      const progressBar = document.getElementById('quizProgressBar');
+      const matrix = document.getElementById('questionMatrix');
+
+      if (counterText) counterText.textContent = `Question ${qIdx + 1} of ${total}`;
+      if (scoreText) scoreText.textContent = `Score: ${state.quiz.score}/${total}`;
+      if (progressBar) progressBar.style.width = `${((qIdx + 1) / total) * 100}%`;
+
+      statValue1.innerHTML = `<span class="text-yellow-300 font-bold">${state.quiz.score}/${total}</span> <span class="text-xs font-normal text-purple-200">(${Math.round((state.quiz.score / total) * 100)}%)</span>`;
+
+      if (matrix) {
+        matrix.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const btn = document.createElement('button');
+          const isAnswered = state.quiz.userAnswers[i] !== undefined;
+          const isCurrent = i === qIdx && !state.quiz.showScorecard;
+          const isCorrect = state.quiz.userAnswers[i] === QUIZ_QUESTIONS[i].correct;
+
+          let btnClass = 'p-1 rounded text-center transition font-bold ';
+          if (isCurrent) {
+            btnClass += 'bg-yellow-400 text-purple-950 ring-2 ring-white ';
+          } else if (isAnswered) {
+            btnClass += isCorrect ? 'bg-green-600/80 text-white ' : 'bg-red-600/80 text-white ';
+          } else {
+            btnClass += 'bg-purple-900/60 text-purple-300 hover:text-white ';
+          }
+
+          btn.className = btnClass;
+          btn.textContent = i + 1;
+          btn.addEventListener('click', () => {
+            state.quiz.currentQuestionIndex = i;
+            state.quiz.showScorecard = false;
+            updateQuizUIControls();
+          });
+          matrix.appendChild(btn);
+        }
+      }
+    }
+
+    function resetActiveExperiment() {
+      const id = state.activeExperiment;
+      if (id === 'coil_entry') {
+        state.coilEntry.coilX = 60;
+        state.coilEntry.vx = 80;
+        state.coilEntry.history = [];
+      } else if (id === 'moting_emf') {
+        state.motional.rodX = 180;
+        state.motional.vx = 50;
+      } else if (id === 'transformer') {
+        state.transformer.phase = 0;
+        state.transformer.fluxLinesPhase = 0;
+      } else if (id === 'induction_cooktop') {
+        state.cooktop.temperature = 24;
+        state.cooktop.boilingTime = 0;
+        state.cooktop.bubbles = [];
+        state.cooktop.steamParticles = [];
+      } else if (id === 'eddy_pipe') {
+        state.eddy.magnetY = 40;
+        state.eddy.vy = 0;
+      } else if (id === 'ac_generator') {
+        state.generator.angle = 0;
+        state.generator.sineHistory = [];
+      } else if (id === 'jumping_ring') {
+        state.jumping.ringY = 0;
+        state.jumping.vy = 0;
+        state.jumping.powerOn = false;
+      } else if (id === 'master_quiz') {
+        state.quiz.currentQuestionIndex = 0;
+        state.quiz.userAnswers = [];
+        state.quiz.score = 0;
+        state.quiz.showScorecard = false;
+        updateQuizUIControls();
+      }
+    }
+
+    // Play/Pause Action
+    primaryActionBtn.addEventListener('click', () => {
+      const id = state.activeExperiment;
+      if (id === 'coil_entry') {
+        state.running = !state.running;
+      } else if (id === 'moting_emf') {
+        state.motional.vx *= -1;
+        const velSlider = document.getElementById('motVelSlider');
+        const velLabel = document.getElementById('motVelLabel');
+        if (velSlider) velSlider.value = (state.motional.vx / 50).toFixed(1);
+        if (velLabel) velLabel.textContent = `${state.motional.vx >= 0 ? '+' : ''}${(state.motional.vx / 50).toFixed(1)} m/s`;
+      } else if (id === 'transformer') {
+        state.running = !state.running;
+      } else if (id === 'induction_cooktop') {
+        state.cooktop.powerOn = !state.cooktop.powerOn;
+      } else if (id === 'eddy_pipe') {
+        state.eddy.magnetY = 40;
+        state.eddy.vy = 10;
+      } else if (id === 'ac_generator') {
+        state.running = !state.running;
+      } else if (id === 'jumping_ring') {
+        state.jumping.powerOn = true;
+        state.jumping.vy = -180;
+      } else if (id === 'master_quiz') {
+        if (state.quiz.currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
+          state.quiz.currentQuestionIndex++;
+          state.quiz.showScorecard = false;
+          updateQuizUIControls();
+        } else {
+          state.quiz.showScorecard = true;
+          updateQuizUIControls();
+        }
+      }
+    });
+
+    resetExpBtn.addEventListener('click', resetActiveExperiment);
+    toggleVectors.addEventListener('change', (e) => {
+      state.showVectors = e.target.checked;
+    });
+
+    quickQuizHeaderBtn.addEventListener('click', () => {
+      selectExperiment('master_quiz');
+    });
+
+    expTabs.forEach(tab => {
+      tab.addEventListener('click', () => selectExperiment(tab.dataset.id));
+    });
+    topicItems.forEach(item => {
+      item.addEventListener('click', () => selectExperiment(item.dataset.id));
+    });
+
+    function generateShareUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('exp', state.activeExperiment);
+
+      if (state.activeExperiment === 'coil_entry') {
+        url.searchParams.set('shape', state.coilEntry.shape);
+        url.searchParams.set('bdir', state.coilEntry.bDir);
+        url.searchParams.set('bstr', state.coilEntry.bStrength.toFixed(1));
+        url.searchParams.set('x', Math.round(state.coilEntry.coilX));
+      } else if (state.activeExperiment === 'moting_emf') {
+        url.searchParams.set('mbdir', state.motional.bDir);
+        url.searchParams.set('mv', (state.motional.vx / 50).toFixed(1));
+        url.searchParams.set('mr', state.motional.resistance.toFixed(1));
+      } else if (state.activeExperiment === 'transformer') {
+        url.searchParams.set('sec', state.transformer.secondaryTurns);
+        url.searchParams.set('freq', state.transformer.frequency.toFixed(2));
+      } else if (state.activeExperiment === 'induction_cooktop') {
+        url.searchParams.set('pan', state.cooktop.panType);
+        url.searchParams.set('pwr', state.cooktop.powerLevel);
+        url.searchParams.set('on', state.cooktop.panOnSurface ? '1' : '0');
+      } else if (state.activeExperiment === 'eddy_pipe') {
+        url.searchParams.set('mat', state.eddy.pipeMaterial);
+      } else if (state.activeExperiment === 'ac_generator') {
+        url.searchParams.set('rpm', state.generator.rpm);
+        url.searchParams.set('b', state.generator.bField.toFixed(1));
+      }
+      return url.toString();
+    }
+
+    shareExpBtn.addEventListener('click', () => {
+      const shareUrl = generateShareUrl();
+      shareUrlInput.value = shareUrl;
+      shareModal.classList.remove('hidden');
+      shareUrlInput.select();
+    });
+
+    closeShareModal.addEventListener('click', () => {
+      shareModal.classList.add('hidden');
+    });
+
+    shareModal.addEventListener('click', (e) => {
+      if (e.target === shareModal) {
+        shareModal.classList.add('hidden');
+      }
+    });
+
+    copyShareBtn.addEventListener('click', () => {
+      shareUrlInput.select();
+      shareUrlInput.setSelectionRange(0, 99999);
+      try {
+        const ok = document.execCommand('copy');
+        showToast(ok ? 'Mayur Sir\'s Link copied to clipboard!' : 'Please copy URL manually');
+      } catch (err) {
+        showToast('Please copy URL manually');
+      }
+    });
+
+    function parseUrlParameters() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const exp = params.get('exp');
+        if (exp && EXPERIMENT_CONFIGS[exp]) {
+          state.activeExperiment = exp;
+
+          if (exp === 'coil_entry') {
+            if (params.get('shape')) state.coilEntry.shape = params.get('shape');
+            if (params.get('bdir')) state.coilEntry.bDir = params.get('bdir');
+            if (params.get('bstr')) state.coilEntry.bStrength = parseFloat(params.get('bstr')) || 1.0;
+            if (params.get('x')) state.coilEntry.coilX = parseFloat(params.get('x')) || 60;
+          } else if (exp === 'moting_emf') {
+            if (params.get('mbdir')) state.motional.bDir = params.get('mbdir');
+            if (params.get('mv')) state.motional.vx = parseFloat(params.get('mv')) * 50;
+            if (params.get('mr')) state.motional.resistance = parseFloat(params.get('mr')) || 5.0;
+          } else if (exp === 'transformer') {
+            if (params.get('sec')) state.transformer.secondaryTurns = parseInt(params.get('sec'), 10) || 16;
+            if (params.get('freq')) state.transformer.frequency = parseFloat(params.get('freq')) || 1.0;
+          } else if (exp === 'induction_cooktop') {
+            if (params.get('pan')) state.cooktop.panType = params.get('pan');
+            if (params.get('pwr')) state.cooktop.powerLevel = parseInt(params.get('pwr'), 10) || 8;
+            if (params.get('on')) {
+              state.cooktop.panOnSurface = params.get('on') === '1';
+              state.cooktop.panLiftY = state.cooktop.panOnSurface ? 0 : 55;
+            }
+          }
+        }
+      } catch (e) {
+        console.debug('Failed to parse URL params:', e);
+      }
+    }
+
+    let isDraggingCoil = false;
+    let dragStartX = 0;
+
+    function getLocalPos(evt) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+      const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      const p = getLocalPos(e);
+      if (state.activeExperiment === 'master_quiz') {
+        handleQuizCanvasClick(p.x, p.y);
+        return;
+      }
+
+      if (state.activeExperiment === 'coil_entry') {
+        const ce = state.coilEntry;
+        const cy = container.clientHeight * 0.42;
+        if (Math.abs(p.x - ce.coilX) < ce.size && Math.abs(p.y - cy) < ce.size) {
+          isDraggingCoil = true;
+          dragStartX = p.x - ce.coilX;
+          ce.motionDir = 'manual';
+        }
+      } else if (state.activeExperiment === 'moting_emf') {
+        const m = state.motional;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        const originX = w * 0.16;
+        const originY = h * 0.30;
+        const currentRodScreenX = originX + m.rodX;
+        if (Math.abs(p.x - currentRodScreenX) < 25 && p.y > originY - 20 && p.y < originY + 180) {
+          m.isDragging = true;
+        }
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      const p = getLocalPos(e);
+      if (isDraggingCoil && state.activeExperiment === 'coil_entry') {
+        state.coilEntry.coilX = Math.max(30, Math.min(container.clientWidth - 30, p.x - dragStartX));
+        const slider = document.getElementById('coilXSlider');
+        if (slider) slider.value = state.coilEntry.coilX;
+        const label = document.getElementById('coilXLabel');
+        if (label) label.textContent = `${Math.round(state.coilEntry.coilX)} px`;
+      } else if (state.activeExperiment === 'moting_emf' && state.motional.isDragging) {
+        const originX = container.clientWidth * 0.16;
+        const railW = container.clientWidth * 0.68;
+        state.motional.rodX = Math.max(30, Math.min(railW - 20, p.x - originX));
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDraggingCoil = false;
+      state.motional.isDragging = false;
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      const p = getLocalPos(e);
+      if (state.activeExperiment === 'master_quiz') {
+        handleQuizCanvasClick(p.x, p.y);
+        e.preventDefault();
+        return;
+      }
+
+      if (state.activeExperiment === 'coil_entry') {
+        const ce = state.coilEntry;
+        const cy = container.clientHeight * 0.42;
+        if (Math.abs(p.x - ce.coilX) < ce.size * 1.2 && Math.abs(p.y - cy) < ce.size * 1.2) {
+          isDraggingCoil = true;
+          dragStartX = p.x - ce.coilX;
+          ce.motionDir = 'manual';
+          e.preventDefault();
+        }
+      } else if (state.activeExperiment === 'moting_emf') {
+        const m = state.motional;
+        const originX = container.clientWidth * 0.16;
+        const originY = container.clientHeight * 0.30;
+        const currentRodScreenX = originX + m.rodX;
+        if (Math.abs(p.x - currentRodScreenX) < 35 && p.y > originY - 20 && p.y < originY + 180) {
+          m.isDragging = true;
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (e) => {
+      const p = getLocalPos(e);
+      if (isDraggingCoil && state.activeExperiment === 'coil_entry') {
+        state.coilEntry.coilX = Math.max(30, Math.min(container.clientWidth - 30, p.x - dragStartX));
+        const slider = document.getElementById('coilXSlider');
+        if (slider) slider.value = state.coilEntry.coilX;
+        const label = document.getElementById('coilXLabel');
+        if (label) label.textContent = `${Math.round(state.coilEntry.coilX)} px`;
+      } else if (state.activeExperiment === 'moting_emf' && state.motional.isDragging) {
+        const originX = container.clientWidth * 0.16;
+        const railW = container.clientWidth * 0.68;
+        state.motional.rodX = Math.max(30, Math.min(railW - 20, p.x - originX));
+      }
+    });
+
+    window.addEventListener('touchend', () => {
+      isDraggingCoil = false;
+      state.motional.isDragging = false;
+    });
+
+    let lastTime = performance.now();
+
+    function simLoop(timestamp) {
+      const dt = Math.min(0.04, (timestamp - lastTime) / 1000);
+      lastTime = timestamp;
+
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (canvas.width !== w * (window.devicePixelRatio || 1)) {
+        resizeCanvas();
+      }
+
+      ctx.clearRect(0, 0, w, h);
+
+      switch (state.activeExperiment) {
+        case 'coil_entry':
+          updateAndRenderCoilEntry(ctx, w, h, dt);
+          break;
+        case 'moting_emf':
+          updateAndRenderMotionalEMF(ctx, w, h, dt);
+          break;
+        case 'transformer':
+          updateAndRenderTransformer(ctx, w, h, dt);
+          break;
+        case 'induction_cooktop':
+          updateAndRenderCooktop(ctx, w, h, dt);
+          break;
+        case 'eddy_pipe':
+          updateAndRenderEddyPipe(ctx, w, h, dt);
+          break;
+        case 'ac_generator':
+          updateAndRenderGenerator(ctx, w, h, dt);
+          break;
+        case 'jumping_ring':
+          updateAndRenderJumpingRing(ctx, w, h, dt);
+          break;
+        case 'master_quiz':
+          updateAndRenderQuiz(ctx, w, h);
+          break;
+      }
+
+      requestAnimationFrame(simLoop);
+    }
+
+    function updateAndRenderCoilEntry(ctx, w, h, dt) {
+      const c = state.coilEntry;
+      const fieldX = w * 0.38;
+      const fieldY = 36;
+      const fieldW = w * 0.36;
+      const fieldH = h * 0.54;
+      const coilY = fieldY + fieldH / 2;
+      const r = c.size / 2;
+
+      c.fieldLeft = fieldX;
+      c.fieldWidth = fieldW;
+
+      if (state.running && !isDraggingCoil) {
+        if (c.motionDir === 'enter_left') {
+          c.coilX += 90 * dt;
+          if (c.coilX > fieldX + fieldW + r + 40) c.coilX = 50;
+        } else if (c.motionDir === 'enter_right') {
+          c.coilX -= 90 * dt;
+          if (c.coilX < 40) c.coilX = w - 60;
+        } else if (c.motionDir === 'auto') {
+          c.coilX += c.vx * dt;
+          if (c.coilX > w - r - 20) { c.coilX = w - r - 20; c.vx *= -1; }
+          if (c.coilX < r + 20) { c.coilX = r + 20; c.vx *= -1; }
+        }
+      }
+
+      const slider = document.getElementById('coilXSlider');
+      if (slider && !isDraggingCoil) slider.value = c.coilX;
+      const xLabel = document.getElementById('coilXLabel');
+      if (xLabel) xLabel.textContent = `${Math.round(c.coilX)} px`;
+
+      const coilLeft = c.coilX - r;
+      const coilRight = c.coilX + r;
+      const fieldRight = fieldX + fieldW;
+
+      let overlapWidth = Math.max(0, Math.min(coilRight, fieldRight) - Math.max(coilLeft, fieldX));
+      let overlapRatio = Math.min(1, Math.max(0, overlapWidth / (2 * r)));
+
+      c.prevFlux = c.flux;
+      c.flux = overlapRatio * (Math.PI * r * r) * c.bStrength * 0.001;
+      const rawDFlux = (c.flux - c.prevFlux) / Math.max(0.001, dt);
+      c.dFluxDt = c.dFluxDt * 0.7 + rawDFlux * 0.3;
+      c.inducedEMF = -c.dFluxDt * 1000;
+
+      const thresh = 0.005;
+      if (Math.abs(c.inducedEMF) < thresh) {
+        c.currentDir = 'None';
+      } else if (c.bDir === 'into') {
+        c.currentDir = c.inducedEMF < 0 ? 'CCW' : 'CW';
+      } else {
+        c.currentDir = c.inducedEMF < 0 ? 'CW' : 'CCW';
+      }
+
+      statValue1.innerHTML = `<span class="text-yellow-300 font-bold">${Math.abs(c.inducedEMF).toFixed(2)} mV</span> <span class="text-xs font-normal text-purple-200">(${c.currentDir})</span>`;
+
+      if (c.currentDir === 'CCW') c.particleOffset += dt * 120;
+      else if (c.currentDir === 'CW') c.particleOffset -= dt * 120;
+
+      ctx.fillStyle = 'rgba(76, 29, 149, 0.32)';
+      ctx.fillRect(fieldX, fieldY, fieldW, fieldH);
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 6]);
+      ctx.strokeRect(fieldX, fieldY, fieldW, fieldH);
+      ctx.setLineDash([]);
+
+      const isInto = c.bDir === 'into';
+      ctx.fillStyle = isInto ? 'rgba(250, 204, 21, 0.5)' : 'rgba(255, 255, 255, 0.75)';
+      ctx.strokeStyle = isInto ? 'rgba(250, 204, 21, 0.5)' : 'rgba(255, 255, 255, 0.75)';
+      ctx.lineWidth = 1.5;
+
+      const gridStep = 32;
+      for (let gx = fieldX + 16; gx < fieldX + fieldW; gx += gridStep) {
+        for (let gy = fieldY + 16; gy < fieldY + fieldH; gy += gridStep) {
+          if (isInto) {
+            ctx.beginPath();
+            ctx.moveTo(gx - 4, gy - 4); ctx.lineTo(gx + 4, gy + 4);
+            ctx.moveTo(gx + 4, gy - 4); ctx.lineTo(gx - 4, gy + 4);
+            ctx.stroke();
+          } else {
+            ctx.beginPath();
+            ctx.arc(gx, gy, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(gx, gy, 5, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        }
+      }
+
+      ctx.fillStyle = '#facc15';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(`\u2192 B-FIELD: ${c.bStrength.toFixed(1)}T [${isInto ? 'INTO SCREEN \u2297' : 'OUT OF SCREEN \u2299'}]`, fieldX + 8, fieldY - 8);
+
+      ctx.save();
+      ctx.translate(c.coilX, coilY);
+
+      ctx.lineWidth = 3.5;
+      const isInducing = c.currentDir !== 'None';
+      ctx.strokeStyle = isInducing ? '#facc15' : '#ffffff';
+      if (isInducing) {
+        ctx.shadowColor = '#facc15';
+        ctx.shadowBlur = 14;
+      }
+
+      ctx.beginPath();
+      if (c.shape === 'circle') {
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+      } else if (c.shape === 'square') {
+        ctx.rect(-r, -r, r * 2, r * 2);
+      } else if (c.shape === 'triangle') {
+        ctx.moveTo(0, -r * 1.15);
+        ctx.lineTo(r, r * 0.85);
+        ctx.lineTo(-r, r * 0.85);
+        ctx.closePath();
+      } else if (c.shape === 'ellipse') {
+        ctx.ellipse(0, 0, r * 1.25, r * 0.75, 0, 0, Math.PI * 2);
+      } else if (c.shape === 'hexagon') {
+        for (let i = 0; i < 6; i++) {
+          const a = (i * Math.PI) / 3;
+          const hx = r * Math.cos(a);
+          const hy = r * Math.sin(a);
+          if (i === 0) ctx.moveTo(hx, hy);
+          else ctx.lineTo(hx, hy);
+        }
+        ctx.closePath();
+      } else if (c.shape === 'custom') {
+        c.customPoints.forEach((pt, i) => {
+          const px = pt.x * r;
+          const py = pt.y * r;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.closePath();
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      if (isInducing && state.showVectors) {
+        ctx.fillStyle = '#ffffff';
+        const numMarkers = 8;
+        for (let m = 0; m < numMarkers; m++) {
+          const a = (m / numMarkers) * Math.PI * 2 + (c.particleOffset * 0.05);
+          const mx = Math.cos(a) * (r * 0.95);
+          const my = Math.sin(a) * (r * 0.95);
+          ctx.beginPath();
+          ctx.arc(mx, my, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      if (isInducing && state.showVectors) {
+        ctx.fillStyle = '#facc15';
+        ctx.font = 'bold 11px system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText(`CURRENT: ${c.currentDir} (${c.currentDir === 'CCW' ? '\u21BA' : '\u21BB'})`, 0, -r - 12);
+
+        const vxSign = (c.coilX - (c.prevCoilX || c.coilX)) >= 0 ? 1 : -1;
+        ctx.strokeStyle = '#ef4444';
+        ctx.fillStyle = '#ef4444';
+        ctx.lineWidth = 2.5;
+        drawArrow(ctx, 0, 0, -vxSign * 35, 0);
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText('F_drag', -vxSign * 25, -6);
+      }
+      c.prevCoilX = c.coilX;
+
+      ctx.restore();
+
+      const oscW = w * 0.85;
+      const oscH = 55;
+      const oscX = (w - oscW) / 2;
+      const oscY = h - 68;
+
+      c.history.push({ emf: c.inducedEMF, flux: c.flux });
+      if (c.history.length > 180) c.history.shift();
+
+      ctx.fillStyle = '#120726';
+      ctx.fillRect(oscX, oscY, oscW, oscH);
+      ctx.strokeStyle = '#581c87';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(oscX, oscY, oscW, oscH);
+
+      const midY = oscY + oscH / 2;
+      ctx.strokeStyle = '#6b21a8';
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(oscX, midY); ctx.lineTo(oscX + oscW, midY); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      const step = oscW / 180;
+      c.history.forEach((pt, i) => {
+        const px = oscX + i * step;
+        const py = Math.max(oscY + 4, Math.min(oscY + oscH - 4, midY - pt.emf * 8));
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+
+      ctx.font = '10px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.textAlign = 'left';
+      ctx.fillText('\u2014 Induced EMF \u0190(t)', oscX + 8, oscY + 12);
+    }
+
+    function updateAndRenderMotionalEMF(ctx, w, h, dt) {
+      const m = state.motional;
+      const originX = w * 0.16;
+      const originY = h * 0.30;
+      const railW = w * 0.68;
+      const railH = 130;
+
+      if (state.running && !m.isDragging) {
+        m.rodX += m.vx * dt;
+        if (m.rodX > railW - 15) { m.rodX = railW - 15; m.vx *= -1; }
+        if (m.rodX < 35) { m.rodX = 35; m.vx *= -1; }
+      }
+
+      const vMps = m.vx / 50;
+      const rodLength = railH * 0.01;
+      const emf = m.bStrength * rodLength * vMps;
+      const current = emf / m.resistance;
+      const lorentzForce = current * rodLength * m.bStrength;
+
+      let circuitDir = 'REST';
+      let rodCurrentFlow = 'REST';
+
+      if (Math.abs(vMps) > 0.05) {
+        if (m.bDir === 'into') {
+          if (vMps > 0) { circuitDir = 'CCW'; rodCurrentFlow = 'UP'; }
+          else { circuitDir = 'CW'; rodCurrentFlow = 'DOWN'; }
+        } else {
+          if (vMps > 0) { circuitDir = 'CW'; rodCurrentFlow = 'DOWN'; }
+          else { circuitDir = 'CCW'; rodCurrentFlow = 'UP'; }
+        }
+      }
+
+      statValue1.innerHTML = `<span class="text-yellow-300 font-bold">${Math.abs(emf).toFixed(2)} V</span> <span class="text-xs font-normal text-purple-200">(${circuitDir} ${Math.abs(current).toFixed(2)}A)</span>`;
+
+      const currentSign = circuitDir === 'CCW' ? 1 : (circuitDir === 'CW' ? -1 : 0);
+      m.electronPhase += currentSign * dt * 90;
+
+      ctx.save();
+      ctx.translate(originX, originY);
+
+      const isInto = m.bDir === 'into';
+      ctx.fillStyle = 'rgba(76, 29, 149, 0.25)';
+      ctx.fillRect(-20, -20, railW + 40, railH + 40);
+
+      ctx.strokeStyle = isInto ? 'rgba(250, 204, 21, 0.45)' : 'rgba(255, 255, 255, 0.65)';
+      ctx.fillStyle = isInto ? 'rgba(250, 204, 21, 0.45)' : 'rgba(255, 255, 255, 0.65)';
+      ctx.lineWidth = 1.5;
+
+      for (let fx = 0; fx <= railW; fx += 34) {
+        for (let fy = 0; fy <= railH; fy += 32) {
+          if (isInto) {
+            ctx.beginPath();
+            ctx.moveTo(fx - 4, fy - 4); ctx.lineTo(fx + 4, fy + 4);
+            ctx.moveTo(fx + 4, fy - 4); ctx.lineTo(fx - 4, fy + 4);
+            ctx.stroke();
+          } else {
+            ctx.beginPath();
+            ctx.arc(fx, fy, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(fx, fy, 5, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        }
+      }
+
+      ctx.fillStyle = '#facc15';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(`PERPENDICULAR B-FIELD: ${m.bStrength.toFixed(1)}T [${isInto ? 'INTO SCREEN \u2297' : 'OUT OF SCREEN \u2299'}]`, 0, -28);
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(railW, 0); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, railH); ctx.lineTo(railW, railH); ctx.stroke();
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, railH * 0.30);
+      const rTop = railH * 0.30;
+      const rBot = railH * 0.70;
+      const rStep = (rBot - rTop) / 6;
+      for (let z = 0; z < 6; z++) {
+        const zy = rTop + z * rStep + rStep / 2;
+        const zx = (z % 2 === 0 ? -12 : 12);
+        ctx.lineTo(zx, zy);
+      }
+      ctx.lineTo(0, rBot);
+      ctx.lineTo(0, railH);
+      ctx.stroke();
+
+      ctx.fillStyle = '#170c30';
+      ctx.fillRect(-62, railH / 2 - 16, 46, 32);
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(-62, railH / 2 - 16, 46, 32);
+
+      ctx.font = 'bold 10px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.textAlign = 'center';
+      ctx.fillText(`R LOAD`, -39, railH / 2 - 3);
+      ctx.fillText(`${m.resistance.toFixed(1)}\u03A9`, -39, railH / 2 + 10);
+
+      if (circuitDir !== 'REST' && state.showVectors) {
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        if (circuitDir === 'CCW') {
+          drawArrow(ctx, 16, railH * 0.35, 16, railH * 0.65);
+          ctx.font = 'bold 9px monospace';
+          ctx.fillText('I (DOWN)', 20, railH / 2 + 15);
+        } else {
+          drawArrow(ctx, 16, railH * 0.65, 16, railH * 0.35);
+          ctx.font = 'bold 9px monospace';
+          ctx.fillText('I (UP)', 20, railH / 2 - 5);
+        }
+      }
+
+      ctx.fillStyle = '#facc15';
+      ctx.shadowColor = '#facc15';
+      ctx.shadowBlur = Math.abs(current) > 0.05 ? 14 : 0;
+      ctx.beginPath();
+      ctx.roundRect(m.rodX - 6, -10, 12, railH + 20, 6);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(m.rodX - 6, -10, 12, railH + 20);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(m.rodX, railH / 2, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#7e22ce';
+      ctx.stroke();
+
+      if (Math.abs(vMps) > 0.05 && state.showVectors) {
+        ctx.strokeStyle = '#38bdf8';
+        ctx.fillStyle = '#38bdf8';
+        ctx.lineWidth = 3;
+        const arrowLen = Math.min(50, Math.abs(vMps) * 35);
+        const arrowDir = vMps > 0 ? 1 : -1;
+        drawArrow(ctx, m.rodX, -22, m.rodX + arrowLen * arrowDir, -22);
+
+        ctx.font = 'bold 10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(`v = ${vMps.toFixed(1)} m/s`, m.rodX + (arrowLen * arrowDir) / 2, -32);
+      }
+
+      if (rodCurrentFlow !== 'REST' && state.showVectors) {
+        ctx.strokeStyle = '#ffffff';
+        ctx.fillStyle = '#ffffff';
+        ctx.lineWidth = 2.5;
+
+        if (rodCurrentFlow === 'UP') {
+          drawArrow(ctx, m.rodX + 16, railH * 0.75, m.rodX + 16, railH * 0.25);
+          ctx.font = 'bold 9px monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('I_rod (UP)', m.rodX + 22, railH / 2);
+        } else {
+          drawArrow(ctx, m.rodX + 16, railH * 0.25, m.rodX + 16, railH * 0.75);
+          ctx.font = 'bold 9px monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('I_rod (DOWN)', m.rodX + 22, railH / 2);
+        }
+
+        const dragDir = vMps > 0 ? -1 : 1;
+        ctx.strokeStyle = '#ef4444';
+        ctx.fillStyle = '#ef4444';
+        ctx.lineWidth = 3;
+        drawArrow(ctx, m.rodX, railH + 24, m.rodX + dragDir * 38, railH + 24);
+        ctx.font = 'bold 10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(`F_Lorentz (${Math.abs(lorentzForce).toFixed(2)}N)`, m.rodX + dragDir * 20, railH + 40);
+      }
+
+      ctx.fillStyle = 'rgba(250, 204, 21, 0.08)';
+      ctx.fillRect(0, 0, m.rodX, railH);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`CIRCUIT LOOP \u03A6_B = ${(m.bStrength * m.rodX * 0.01).toFixed(2)} Wb`, m.rodX / 2, railH / 2);
+
+      ctx.restore();
+    }
+
+    function updateAndRenderTransformer(ctx, w, h, dt) {
+      const t = state.transformer;
+      if (state.running) {
+        const omega = 2 * Math.PI * t.frequency;
+        t.phase += omega * dt;
+        t.fluxLinesPhase += omega * dt * 35;
+      }
+
+      const vPrimary = t.vPrimaryAmp * Math.sin(t.phase);
+      const turnsRatio = t.secondaryTurns / t.primaryTurns;
+      const vSecondary = -vPrimary * turnsRatio;
+      const coreFlux = Math.cos(t.phase);
+
+      statValue1.innerHTML = `<span class="text-yellow-300 font-bold">${vSecondary.toFixed(1)} V AC</span> <span class="text-xs font-normal text-purple-200">(${turnsRatio.toFixed(1)}x ratio)</span>`;
+
+      const cX = w * 0.50;
+      const cY = h * 0.44;
+      const coreW = Math.min(320, w * 0.52);
+      const coreH = Math.min(220, h * 0.52);
+      const coreThick = 44;
+
+      ctx.save();
+      ctx.translate(cX, cY);
+
+      ctx.fillStyle = '#241042';
+      ctx.beginPath();
+      ctx.roundRect(-coreW / 2, -coreH / 2, coreW, coreH, 12);
+      ctx.fill();
+
+      const innerW = coreW - coreThick * 2;
+      const innerH = coreH - coreThick * 2;
+      ctx.clearRect(-innerW / 2, -innerH / 2, innerW, innerH);
+      ctx.fillStyle = '#0c051a';
+      ctx.beginPath();
+      ctx.roundRect(-innerW / 2, -innerH / 2, innerW, innerH, 6);
+      ctx.fill();
+
+      ctx.strokeStyle = '#6b21a8';
+      ctx.lineWidth = 2.5;
+      ctx.strokeRect(-coreW / 2, -coreH / 2, coreW, coreH);
+      ctx.strokeRect(-innerW / 2, -innerH / 2, innerW, innerH);
+
+      if (state.showVectors) {
+        const fluxStrength = Math.abs(coreFlux);
+        const fluxDirSign = coreFlux >= 0 ? 1 : -1;
+        const fluxAlpha = Math.max(0.15, fluxStrength * 0.85);
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = `rgba(250, 204, 21, ${fluxAlpha})`;
+
+        const paths = [0.25, 0.50, 0.75];
+        paths.forEach((pFrac) => {
+          const off = coreThick * pFrac;
+          const pw = coreW - off * 2;
+          const ph = coreH - off * 2;
+
+          ctx.save();
+          ctx.setLineDash([8, 6]);
+          ctx.lineDashOffset = -t.fluxLinesPhase * fluxDirSign;
+          ctx.beginPath();
+          ctx.roundRect(-pw / 2, -ph / 2, pw, ph, 8);
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        if (fluxStrength > 0.15) {
+          ctx.fillStyle = '#facc15';
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 2;
+
+          const topFlowX = fluxDirSign > 0 ? 1 : -1;
+          drawArrow(ctx, -15 * topFlowX, -coreH / 2 + coreThick / 2, 15 * topFlowX, -coreH / 2 + coreThick / 2);
+
+          const rightFlowY = fluxDirSign > 0 ? 1 : -1;
+          drawArrow(ctx, coreW / 2 - coreThick / 2, -15 * rightFlowY, coreW / 2 - coreThick / 2, 15 * rightFlowY);
+
+          const botFlowX = -topFlowX;
+          drawArrow(ctx, -15 * botFlowX, coreH / 2 - coreThick / 2, 15 * botFlowX, coreH / 2 - coreThick / 2);
+
+          const leftFlowY = -rightFlowY;
+          drawArrow(ctx, -coreW / 2 + coreThick / 2, -15 * leftFlowY, -coreW / 2 + coreThick / 2, 15 * leftFlowY);
+
+          ctx.fillStyle = '#facc15';
+          ctx.font = 'bold 10px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(`\u03A6_core: ${fluxDirSign > 0 ? 'CLOCKWISE (\u21BB)' : 'COUNTER-CLOCKWISE (\u21BA)'}`, 0, -coreH / 2 - 10);
+        }
+      }
+
+      const leftColX = -coreW / 2 + coreThick / 2;
+      const coilH = innerH * 0.75;
+      const pStep = coilH / t.primaryTurns;
+      const coilYStart = -coilH / 2;
+
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = '#ffffff';
+      for (let i = 0; i < t.primaryTurns; i++) {
+        const wy = coilYStart + i * pStep + pStep / 2;
+        ctx.beginPath();
+        ctx.moveTo(leftColX - coreThick / 2 - 14, wy);
+        ctx.lineTo(leftColX + coreThick / 2 + 14, wy - 4);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(leftColX - coreThick / 2 - 14, coilYStart + pStep / 2);
+      ctx.lineTo(-coreW / 2 - 50, coilYStart + pStep / 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(leftColX - coreThick / 2 - 14, coilYStart + (t.primaryTurns - 1) * pStep + pStep / 2);
+      ctx.lineTo(-coreW / 2 - 50, coilYStart + (t.primaryTurns - 1) * pStep + pStep / 2);
+      ctx.stroke();
+
+      ctx.fillStyle = '#170c30';
+      ctx.fillRect(-coreW / 2 - 80, -22, 60, 44);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(-coreW / 2 - 80, -22, 60, 44);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 10px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText('PRIMARY', -coreW / 2 - 50, -6);
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.fillText(`${vPrimary.toFixed(1)}V AC`, -coreW / 2 - 50, 10);
+
+      const rightColX = coreW / 2 - coreThick / 2;
+      const sStep = coilH / t.secondaryTurns;
+
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#facc15';
+      for (let i = 0; i < t.secondaryTurns; i++) {
+        const wy = coilYStart + i * sStep + sStep / 2;
+        ctx.beginPath();
+        ctx.moveTo(rightColX - coreThick / 2 - 12, wy);
+        ctx.lineTo(rightColX + coreThick / 2 + 12, wy - 3);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(rightColX + coreThick / 2 + 12, coilYStart + sStep / 2);
+      ctx.lineTo(coreW / 2 + 50, coilYStart + sStep / 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(rightColX + coreThick / 2 + 12, coilYStart + (t.secondaryTurns - 1) * sStep + sStep / 2);
+      ctx.lineTo(coreW / 2 + 50, coilYStart + (t.secondaryTurns - 1) * sStep + sStep / 2);
+      ctx.stroke();
+
+      ctx.fillStyle = '#170c30';
+      ctx.fillRect(coreW / 2 + 20, -22, 65, 44);
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(coreW / 2 + 20, -22, 65, 44);
+
+      ctx.fillStyle = '#facc15';
+      ctx.font = 'bold 10px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText('SECONDARY', coreW / 2 + 52, -6);
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`${vSecondary.toFixed(1)}V AC`, coreW / 2 + 52, 10);
+
+      ctx.restore();
+
+      const oscW = coreW + 120;
+      const oscH = 55;
+      const oscX = cX - oscW / 2;
+      const oscY = cY + coreH / 2 + 18;
+
+      ctx.save();
+      ctx.fillStyle = '#110724';
+      ctx.fillRect(oscX, oscY, oscW, oscH);
+      ctx.strokeStyle = '#581c87';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(oscX, oscY, oscW, oscH);
+
+      const midY = oscY + oscH / 2;
+      ctx.strokeStyle = '#6b21a8';
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(oscX, midY); ctx.lineTo(oscX + oscW, midY); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let px = 0; px < oscW; px += 2) {
+        const phi = t.phase - (oscW - px) * 0.04;
+        const py = midY - Math.sin(phi) * 12;
+        if (px === 0) ctx.moveTo(oscX + px, py);
+        else ctx.lineTo(oscX + px, py);
+      }
+      ctx.stroke();
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let px = 0; px < oscW; px += 2) {
+        const phi = t.phase - (oscW - px) * 0.04;
+        const py = midY - (-Math.sin(phi) * turnsRatio) * 12;
+        if (px === 0) ctx.moveTo(oscX + px, py);
+        else ctx.lineTo(oscX + px, py);
+      }
+      ctx.stroke();
+
+      ctx.font = '10px monospace';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.fillText('\u2014 V_primary', oscX + 10, oscY + 14);
+      ctx.fillStyle = '#facc15';
+      ctx.fillText('\u2014 V_secondary (Opposite Phase)', oscX + 100, oscY + 14);
+      ctx.restore();
+    }
+
+    function updateAndRenderCooktop(ctx, w, h, dt) {
+      const ck = state.cooktop;
+      const centerX = w * 0.5;
+      const glassY = h * 0.62;
+      const cooktopW = w * 0.7;
+
+      if (ck.powerOn) {
+        ck.coilPhase += dt * 18;
+      }
+
+      const isCoupled = ck.powerOn && ck.panOnSurface && ck.powerLevel > 0;
+      let heatingRate = 0;
+      let efficiency = 0;
+
+      if (isCoupled) {
+        if (ck.panType === 'cast_iron') {
+          efficiency = 0.92;
+          heatingRate = ck.powerLevel * 4.2;
+        } else if (ck.panType === 'copper') {
+          efficiency = 0.18;
+          heatingRate = ck.powerLevel * 0.7;
+        } else {
+          efficiency = 0.0;
+          heatingRate = 0;
+        }
+      }
+
+      const coolingRate = (ck.temperature - 24) * 0.45;
+      ck.temperature += (heatingRate - coolingRate) * dt;
+      ck.temperature = Math.max(24, Math.min(185, ck.temperature));
+
+      statValue1.textContent = `${ck.temperature.toFixed(1)} \u00B0C (${isCoupled ? Math.round(efficiency * 100) : 0}% Coupling)`;
+
+      if (ck.temperature >= 98 && isCoupled) {
+        ck.boilingTime += dt;
+        if (Math.random() < 0.4) {
+          ck.bubbles.push({
+            x: centerX - 70 + Math.random() * 140,
+            y: glassY - 55 - ck.panLiftY,
+            vy: 20 + Math.random() * 35,
+            radius: 2 + Math.random() * 4
+          });
+        }
+      }
+      ck.bubbles.forEach(b => { b.y -= b.vy * dt; });
+      ck.bubbles = ck.bubbles.filter(b => b.y > glassY - 110 - ck.panLiftY);
+
+      if (ck.temperature > 85 && isCoupled) {
+        if (Math.random() < 0.35) {
+          ck.steamParticles.push({
+            x: centerX - 40 + Math.random() * 80,
+            y: glassY - 120 - ck.panLiftY,
+            vy: 40 + Math.random() * 30,
+            vx: (Math.random() - 0.5) * 15,
+            alpha: 0.6,
+            size: 8 + Math.random() * 10
+          });
+        }
+      }
+      ck.steamParticles.forEach(s => {
+        s.y -= s.vy * dt;
+        s.x += s.vx * dt;
+        s.alpha -= dt * 0.35;
+        s.size += dt * 10;
+      });
+      ck.steamParticles = ck.steamParticles.filter(s => s.alpha > 0);
+
+      ctx.save();
+
+      ctx.fillStyle = '#1a0d36';
+      ctx.fillRect(centerX - cooktopW / 2, glassY, cooktopW, h - glassY - 20);
+      ctx.strokeStyle = '#581c87';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(centerX - cooktopW / 2, glassY, cooktopW, h - glassY - 20);
+
+      const coilW = cooktopW * 0.55;
+      const coilH = 26;
+      const coilY = glassY + 16;
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 3;
+      const numTurns = 14;
+      const turnStep = coilW / numTurns;
+
+      for (let i = 0; i < numTurns; i++) {
+        const cx = centerX - coilW / 2 + i * turnStep + turnStep / 2;
+        ctx.beginPath();
+        ctx.ellipse(cx, coilY, turnStep * 0.45, coilH / 2, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      if (ck.powerOn && state.showVectors) {
+        const fieldAlpha = Math.abs(Math.sin(ck.coilPhase)) * (ck.powerLevel / 10);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = `rgba(250, 204, 21, ${0.15 + fieldAlpha * 0.7})`;
+
+        const fieldRadiusX = [40, 75, 110, 140];
+        fieldRadiusX.forEach(rad => {
+          ctx.beginPath();
+          ctx.ellipse(centerX, glassY + 8, rad, rad * 0.65, 0, Math.PI, 0);
+          ctx.stroke();
+        });
+
+        ctx.fillStyle = '#facc15';
+        ctx.font = 'bold 10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(`25 kHz Oscillating B-Field (P = ${ck.powerLevel * 220}W)`, centerX, glassY + 54);
+      }
+
+      ctx.fillStyle = '#120726';
+      ctx.fillRect(centerX - cooktopW / 2, glassY - 8, cooktopW, 14);
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(centerX - cooktopW / 2, glassY - 8, cooktopW, 14);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 9px system-ui';
+      ctx.textAlign = 'left';
+      ctx.fillText("CERAMIC GLASS COOKTOP (Cool to Touch)", centerX - cooktopW / 2 + 12, glassY + 2);
+
+      const panBaseY = glassY - 8 - ck.panLiftY;
+      const panW = 200;
+      const panH = 75;
+
+      let panColor = '#475569';
+      if (ck.panType === 'copper') panColor = '#c2410c';
+      if (ck.panType === 'ceramic') panColor = '#ffffff';
+
+      const heatFactor = Math.min(1, (ck.temperature - 24) / 120);
+
+      ctx.save();
+      ctx.translate(centerX, panBaseY);
+
+      ctx.fillStyle = panColor;
+      if (heatFactor > 0.4 && ck.panType === 'cast_iron') {
+        ctx.shadowColor = '#facc15';
+        ctx.shadowBlur = heatFactor * 24;
+      }
+      ctx.beginPath();
+      ctx.roundRect(-panW / 2, -panH, panW, panH, [4, 4, 16, 16]);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#2e1065';
+      ctx.beginPath();
+      ctx.roundRect(panW / 2, -panH + 12, 60, 14, 4);
+      ctx.fill();
+      ctx.strokeStyle = '#9333ea';
+      ctx.stroke();
+
+      if (isCoupled && ck.panType !== 'ceramic' && state.showVectors) {
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 2.5;
+
+        [-40, 0, 40].forEach((ox, idx) => {
+          ctx.beginPath();
+          ctx.ellipse(ox, -10, 28, 6, 0, 0, Math.PI * 2);
+          ctx.stroke();
+
+          const eddyAngle = ck.coilPhase * 2 + idx;
+          const ax = ox + Math.cos(eddyAngle) * 28;
+          const ay = -10 + Math.sin(eddyAngle) * 6;
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(ax, ay, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.fillStyle = '#facc15';
+        ctx.font = 'bold 9px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("SWIRLING EDDY CURRENTS (Skin Depth \u03B4)", 0, -22);
+      }
+
+      ctx.fillStyle = 'rgba(234, 179, 8, 0.25)';
+      ctx.beginPath();
+      ctx.roundRect(-panW / 2 + 8, -panH + 20, panW - 16, panH - 28, [0, 0, 10, 10]);
+      ctx.fill();
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-panW / 2 + 8, -panH + 20);
+      ctx.lineTo(panW / 2 - 8, -panH + 20);
+      ctx.stroke();
+
+      ctx.restore();
+
+      ck.bubbles.forEach(b => {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ck.steamParticles.forEach(s => {
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      const hudX = centerX - cooktopW / 2 + 10;
+      const hudY = 48;
+      ctx.fillStyle = 'rgba(23, 11, 48, 0.92)';
+      ctx.fillRect(hudX, hudY, 215, 95);
+      ctx.strokeStyle = '#7e22ce';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(hudX, hudY, 215, 95);
+
+      ctx.font = 'bold 11px system-ui';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Cookware: ${ck.panType.toUpperCase().replace('_', ' ')}`, hudX + 12, hudY + 22);
+
+      ctx.font = 'bold 10px monospace';
+      ctx.fillStyle = ck.temperature > 95 ? '#ef4444' : (ck.temperature > 50 ? '#facc15' : '#e9d5ff');
+      ctx.fillText(`Temperature: ${ck.temperature.toFixed(1)} \u00B0C ${ck.temperature >= 98 ? "(BOILING!)" : ""}`, hudX + 12, hudY + 42);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`Coupling: ${isCoupled ? "ACTIVE (Field Linked)" : "DISCONNECTED"}`, hudX + 12, hudY + 62);
+      ctx.fillStyle = '#facc15';
+      ctx.fillText(`Power Dissipation: ${isCoupled ? (ck.powerLevel * 220 * efficiency).toFixed(0) : 0} Watts`, hudX + 12, hudY + 80);
+
+      ctx.restore();
+    }
+
+    function updateAndRenderEddyPipe(ctx, w, h, dt) {
+      const e = state.eddy;
+      const pipeX = w * 0.45;
+      const pipeTop = 70;
+      const pipeH = h - 130;
+      const pipeW = 75;
+
+      let conductivity = 1.0;
+      let pipeColor = 'rgba(250, 204, 21, 0.3)';
+      let pipeBorder = '#facc15';
+      if (e.pipeMaterial === 'aluminum') {
+        conductivity = 0.6;
+        pipeColor = 'rgba(192, 132, 252, 0.35)';
+        pipeBorder = '#c084fc';
+      } else if (e.pipeMaterial === 'plastic') {
+        conductivity = 0.0;
+        pipeColor = 'rgba(75, 45, 115, 0.25)';
+        pipeBorder = '#7e22ce';
+      }
+
+      const inPipe = e.magnetY > pipeTop && e.magnetY < pipeTop + pipeH;
+      const gravity = 220;
+      let dragForce = inPipe ? conductivity * 22 * e.vy : 0;
+
+      const netAcc = gravity - dragForce;
+      e.vy += netAcc * dt;
+      e.magnetY += e.vy * dt;
+
+      if (e.magnetY > pipeTop + pipeH + 80) {
+        e.magnetY = pipeTop - 30;
+        e.vy = 20;
+      }
+
+      statValue1.textContent = `${(e.vy / 100).toFixed(2)} m/s`;
+
+      ctx.save();
+      ctx.fillStyle = pipeColor;
+      ctx.strokeStyle = pipeBorder;
+      ctx.lineWidth = 3;
+      ctx.fillRect(pipeX - pipeW / 2, pipeTop, pipeW, pipeH);
+      ctx.strokeRect(pipeX - pipeW / 2, pipeTop, pipeW, pipeH);
+
+      const magW = 44;
+      const magH = 34;
+      const magX = pipeX - magW / 2;
+      const magY = e.magnetY - magH / 2;
+
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(magX, magY, magW, magH / 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText('N', pipeX, magY + 12);
+
+      ctx.fillStyle = '#6366f1';
+      ctx.fillRect(magX, magY + magH / 2, magW, magH / 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('S', pipeX, magY + 28);
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(magX, magY, magW, magH);
+
+      if (inPipe && conductivity > 0 && state.showVectors) {
+        e.swirlPhase += dt * 8;
+        [-22, 22].forEach((offset, idx) => {
+          const swirlY = e.magnetY + offset;
+          ctx.strokeStyle = idx === 0 ? '#facc15' : '#ffffff';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.ellipse(pipeX, swirlY, pipeW * 0.44, 10, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        });
+
+        ctx.strokeStyle = '#facc15';
+        ctx.fillStyle = '#facc15';
+        ctx.lineWidth = 3;
+        drawArrow(ctx, pipeX, magY, pipeX, magY - 32);
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText('F_drag', pipeX, magY - 38);
+      }
+      ctx.restore();
+    }
+
+    function updateAndRenderGenerator(ctx, w, h, dt) {
+      const g = state.generator;
+      if (state.running) {
+        const omega = (g.rpm * 2 * Math.PI) / 60;
+        g.angle += omega * dt;
+      }
+
+      const emf = Math.sin(g.angle) * g.bField * (g.rpm / 40);
+      statValue1.textContent = `${emf.toFixed(2)} Volts AC`;
+
+      g.sineHistory.push(emf);
+      if (g.sineHistory.length > 140) g.sineHistory.shift();
+
+      const centerX = w * 0.32;
+      const centerY = h * 0.48;
+
+      ctx.save();
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(centerX - 130, centerY - 65, 40, 130);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 20px system-ui';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('N', centerX - 110, centerY);
+
+      ctx.fillStyle = '#6366f1';
+      ctx.fillRect(centerX + 90, centerY - 65, 40, 130);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('S', centerX + 110, centerY);
+
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      const cosA = Math.cos(g.angle);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#facc15';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, Math.abs(cosA) * 65 + 4, 60, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      const oscX = w * 0.62;
+      const oscY = centerY;
+      const oscW = w * 0.32;
+      const oscH = 120;
+
+      ctx.fillStyle = '#120726';
+      ctx.fillRect(oscX, oscY - oscH / 2, oscW, oscH);
+      ctx.strokeStyle = '#581c87';
+      ctx.strokeRect(oscX, oscY - oscH / 2, oscW, oscH);
+
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = '#facc15';
+      ctx.beginPath();
+      const step = oscW / 140;
+      g.sineHistory.forEach((v, i) => {
+        const px = oscX + i * step;
+        const py = oscY - v * 40;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function updateAndRenderJumpingRing(ctx, w, h, dt) {
+      const j = state.jumping;
+      const baseGroundY = h * 0.72;
+      const coreX = w * 0.5;
+      const coreH = 170;
+      const coreW = 28;
+
+      if (j.powerOn) {
+        const gravity = 420;
+        j.vy += gravity * dt;
+        j.ringY += j.vy * dt;
+
+        if (j.ringY > 0) {
+          j.ringY = 0;
+          j.vy = 0;
+          j.powerOn = false;
+        }
+      }
+
+      statValue1.textContent = `${Math.abs(j.ringY / 10).toFixed(1)} cm`;
+
+      ctx.save();
+      ctx.fillStyle = '#4c1d95';
+      ctx.fillRect(coreX - 45, baseGroundY - 45, 90, 50);
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(coreX - 45, baseGroundY - 45, 90, 50);
+
+      ctx.fillStyle = '#581c87';
+      ctx.fillRect(coreX - coreW / 2, baseGroundY - coreH, coreW, coreH);
+
+      const currentRingY = baseGroundY - 50 + j.ringY;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.roundRect(coreX - 30, currentRingY, 60, 18, 6);
+      ctx.fill();
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    let quizOptionBoxes = [];
+    let quizNavButtons = [];
+
+    function handleQuizCanvasClick(clickX, clickY) {
+      if (state.quiz.showScorecard) {
+        if (quizNavButtons.length > 0) {
+          quizNavButtons.forEach(btn => {
+            if (clickX >= btn.x && clickX <= btn.x + btn.w && clickY >= btn.y && clickY <= btn.y + btn.h) {
+              btn.action();
+            }
+          });
+        }
+        return;
+      }
+
+      for (let i = 0; i < quizOptionBoxes.length; i++) {
+        const box = quizOptionBoxes[i];
+        if (clickX >= box.x && clickX <= box.x + box.w && clickY >= box.y && clickY <= box.y + box.h) {
+          const qIdx = state.quiz.currentQuestionIndex;
+          if (state.quiz.userAnswers[qIdx] === undefined) {
+            state.quiz.userAnswers[qIdx] = i;
+            if (i === QUIZ_QUESTIONS[qIdx].correct) {
+              state.quiz.score++;
+            }
+            updateQuizUIControls();
+          }
+          break;
+        }
+      }
+
+      quizNavButtons.forEach(btn => {
+        if (clickX >= btn.x && clickX <= btn.x + btn.w && clickY >= btn.y && clickY <= btn.y + btn.h) {
+          btn.action();
+        }
+      });
+    }
+
+    function updateAndRenderQuiz(ctx, w, h) {
+      quizOptionBoxes = [];
+      quizNavButtons = [];
+
+      ctx.save();
+      ctx.fillStyle = '#14082b';
+      ctx.fillRect(0, 0, w, h);
+
+      if (state.quiz.showScorecard) {
+        renderQuizScorecard(ctx, w, h);
+        ctx.restore();
+        return;
+      }
+
+      const qIdx = state.quiz.currentQuestionIndex;
+      const q = QUIZ_QUESTIONS[qIdx];
+      const userAnswer = state.quiz.userAnswers[qIdx];
+      const isAnswered = userAnswer !== undefined;
+
+      const padX = Math.max(16, w * 0.05);
+      const topY = 22;
+
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.textAlign = 'left';
+      ctx.fillText(`QUESTION ${qIdx + 1} OF ${QUIZ_QUESTIONS.length}`, padX, topY);
+
+      ctx.fillStyle = '#c084fc';
+      ctx.font = 'bold 10px monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(`[${q.category.toUpperCase()}]`, w - padX, topY);
+
+      const qBoxY = topY + 12;
+      const qBoxW = w - padX * 2;
+      const qBoxH = Math.min(85, h * 0.22);
+
+      ctx.fillStyle = '#1c0e3a';
+      ctx.beginPath();
+      ctx.roundRect(padX, qBoxY, qBoxW, qBoxH, 10);
+      ctx.fill();
+      ctx.strokeStyle = '#7e22ce';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${w < 600 ? '12px' : '14px'} system-ui, sans-serif`;
+      ctx.textAlign = 'left';
+
+      const words = q.question.split(' ');
+      let line = '';
+      let lineY = qBoxY + 24;
+      const maxTextW = qBoxW - 24;
+
+      for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + ' ';
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxTextW && i > 0) {
+          ctx.fillText(line, padX + 14, lineY);
+          line = words[i] + ' ';
+          lineY += (w < 600 ? 17 : 20);
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, padX + 14, lineY);
+
+      const optStartY = qBoxY + qBoxH + 12;
+      const optGap = 8;
+      const availableOptH = h - optStartY - (isAnswered ? 90 : 45);
+      const optH = Math.max(34, Math.min(46, availableOptH / 4 - optGap));
+
+      q.options.forEach((optText, idx) => {
+        const optY = optStartY + idx * (optH + optGap);
+        let bgColor = '#180a33';
+        let borderColor = '#581c87';
+        let textColor = '#e9d5ff';
+        let badgeColor = '#4c1d95';
+        let badgeText = '#ffffff';
+
+        if (isAnswered) {
+          if (idx === q.correct) {
+            bgColor = 'rgba(34, 197, 94, 0.20)';
+            borderColor = '#22c55e';
+            textColor = '#86efac';
+            badgeColor = '#22c55e';
+            badgeText = '#052e16';
+          } else if (idx === userAnswer) {
+            bgColor = 'rgba(239, 68, 68, 0.20)';
+            borderColor = '#ef4444';
+            textColor = '#fca5a5';
+            badgeColor = '#ef4444';
+            badgeText = '#ffffff';
+          }
+        }
+
+        ctx.fillStyle = bgColor;
+        ctx.beginPath();
+        ctx.roundRect(padX, optY, qBoxW, optH, 8);
+        ctx.fill();
+
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        const letter = String.fromCharCode(65 + idx);
+        ctx.fillStyle = badgeColor;
+        ctx.beginPath();
+        ctx.roundRect(padX + 8, optY + (optH - 24) / 2, 24, 24, 6);
+        ctx.fill();
+
+        ctx.fillStyle = badgeText;
+        ctx.font = 'bold 11px system-ui';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(letter, padX + 20, optY + optH / 2);
+
+        ctx.fillStyle = textColor;
+        ctx.font = `${w < 600 ? '11px' : '12px'} system-ui`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        
+        let trimmedOpt = optText;
+        if (ctx.measureText(trimmedOpt).width > qBoxW - 65) {
+          while (ctx.measureText(trimmedOpt + '...').width > qBoxW - 65 && trimmedOpt.length > 5) {
+            trimmedOpt = trimmedOpt.slice(0, -1);
+          }
+          trimmedOpt += '...';
+        }
+        ctx.fillText(trimmedOpt, padX + 40, optY + optH / 2);
+
+        quizOptionBoxes.push({
+          x: padX,
+          y: optY,
+          w: qBoxW,
+          h: optH
+        });
+      });
+
+      if (isAnswered) {
+        const expY = optStartY + 4 * (optH + optGap) + 4;
+        const expH = Math.max(65, h - expY - 14);
+
+        ctx.fillStyle = '#1e0c40';
+        ctx.beginPath();
+        ctx.roundRect(padX, expY, qBoxW, expH, 8);
+        ctx.fill();
+
+        const isUserCorrect = userAnswer === q.correct;
+        ctx.strokeStyle = isUserCorrect ? '#22c55e' : '#facc15';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = isUserCorrect ? '#4ade80' : '#facc15';
+        ctx.font = 'bold 11px system-ui';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText(
+          isUserCorrect ? '✔ Correct! Mayur Sir\'s Explanation:' : '✖ Incorrect. Mayur Sir\'s Explanation:',
+          padX + 12,
+          expY + 8
+        );
+
+        ctx.fillStyle = '#e9d5ff';
+        ctx.font = `${w < 600 ? '10px' : '11px'} system-ui`;
+        const expWords = q.explanation.split(' ');
+        let expLine = '';
+        let expLineY = expY + 26;
+
+        for (let j = 0; j < expWords.length; j++) {
+          const testExpLine = expLine + expWords[j] + ' ';
+          if (ctx.measureText(testExpLine).width > qBoxW - 24 && j > 0) {
+            if (expLineY < expY + expH - 14) {
+              ctx.fillText(expLine, padX + 12, expLineY);
+            }
+            expLine = expWords[j] + ' ';
+            expLineY += (w < 600 ? 14 : 16);
+          } else {
+            expLine = testExpLine;
+          }
+        }
+        if (expLineY < expY + expH - 14) {
+          ctx.fillText(expLine, padX + 12, expLineY);
+        }
+      }
+
+      ctx.restore();
+    }
+
+    function renderQuizScorecard(ctx, w, h) {
+      const padX = Math.max(16, w * 0.08);
+      const total = QUIZ_QUESTIONS.length;
+      const score = state.quiz.score;
+      const pct = Math.round((score / total) * 100);
+
+      ctx.font = 'bold 16px system-ui';
+      ctx.fillStyle = '#facc15';
+      ctx.textAlign = 'center';
+      ctx.fillText('MAYUR SIR\'S MASTER QUIZ SCORECARD', w / 2, 34);
+
+      ctx.font = '11px monospace';
+      ctx.fillStyle = '#c084fc';
+      ctx.fillText('ELECTROMAGNETIC INDUCTION CONCEPT ANALYSIS', w / 2, 52);
+
+      const cardW = w - padX * 2;
+      const cardY = 66;
+      const cardH = h - 110;
+
+      ctx.fillStyle = '#180a33';
+      ctx.beginPath();
+      ctx.roundRect(padX, cardY, cardW, cardH, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#7e22ce';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.font = 'bold 38px monospace';
+      ctx.fillStyle = pct >= 80 ? '#4ade80' : (pct >= 50 ? '#facc15' : '#f87171');
+      ctx.textAlign = 'center';
+      ctx.fillText(`${score} / ${total}`, w / 2, cardY + 52);
+
+      ctx.font = 'bold 14px system-ui';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`Overall Mastery: ${pct}%`, w / 2, cardY + 76);
+
+      ctx.font = 'italic 11px system-ui';
+      ctx.fillStyle = '#e9d5ff';
+      let message = '';
+      if (pct >= 90) message = '🌟 Outstanding! You have complete command over Lenz\'s Law and Faraday\'s physics!';
+      else if (pct >= 70) message = '👍 Great performance! Review motional EMF and eddy currents to reach 100%.';
+      else if (pct >= 50) message = '📚 Good effort! Revisit the interactive simulations and re-attempt the quiz.';
+      else message = '💡 Keep learning! Experiment with the 7 simulations above and try the test again.';
+      ctx.fillText(message, w / 2, cardY + 98);
+
+      const categories = ["Lenz's Law", "Faraday's Law", "Motional EMF", "Eddy Currents", "Transformers"];
+      const startCatY = cardY + 118;
+
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.textAlign = 'left';
+      ctx.fillText('TOPIC BREAKDOWN:', padX + 20, startCatY);
+
+      categories.forEach((cat, idx) => {
+        const catQ = QUIZ_QUESTIONS.filter(q => q.category.includes(cat) || (cat === "Lenz's Law" && q.category === "Lenz's Law"));
+        const catTotal = catQ.length;
+        let catCorrect = 0;
+        catQ.forEach(q => {
+          const qIdx = q.id - 1;
+          if (state.quiz.userAnswers[qIdx] === q.correct) catCorrect++;
+        });
+
+        const catY = startCatY + 18 + idx * 22;
+        if (catY < cardY + cardH - 50) {
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '11px system-ui';
+          ctx.textAlign = 'left';
+          ctx.fillText(cat, padX + 20, catY);
+
+          const barW = Math.min(140, cardW * 0.35);
+          const barX = padX + cardW - barW - 75;
+          const fillW = catTotal > 0 ? (catCorrect / catTotal) * barW : 0;
+
+          ctx.fillStyle = '#2e1065';
+          ctx.beginPath();
+          ctx.roundRect(barX, catY - 9, barW, 10, 4);
+          ctx.fill();
+
+          ctx.fillStyle = '#facc15';
+          ctx.beginPath();
+          ctx.roundRect(barX, catY - 9, fillW, 10, 4);
+          ctx.fill();
+
+          ctx.fillStyle = '#e9d5ff';
+          ctx.font = 'bold 10px monospace';
+          ctx.textAlign = 'right';
+          ctx.fillText(`${catCorrect}/${catTotal}`, padX + cardW - 20, catY);
+        }
+      });
+
+      const btnW = Math.min(160, (cardW - 40) / 2);
+      const btnH = 34;
+      const btnY = cardY + cardH - 44;
+
+      const retakeX = w / 2 - btnW - 10;
+      ctx.fillStyle = '#facc15';
+      ctx.beginPath();
+      ctx.roundRect(retakeX, btnY, btnW, btnH, 8);
+      ctx.fill();
+      ctx.fillStyle = '#1e0940';
+      ctx.font = 'bold 11px system-ui';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Retake Quiz', retakeX + btnW / 2, btnY + btnH / 2);
+
+      quizNavButtons.push({
+        x: retakeX,
+        y: btnY,
+        w: btnW,
+        h: btnH,
+        action: () => {
+          resetActiveExperiment();
+        }
+      });
+
+      const reviewX = w / 2 + 10;
+      ctx.fillStyle = '#4c1d95';
+      ctx.beginPath();
+      ctx.roundRect(reviewX, btnY, btnW, btnH, 8);
+      ctx.fill();
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px system-ui';
+      ctx.fillText('Review Questions', reviewX + btnW / 2, btnY + btnH / 2);
+
+      quizNavButtons.push({
+        x: reviewX,
+        y: btnY,
+        w: btnW,
+        h: btnH,
+        action: () => {
+          state.quiz.showScorecard = false;
+          state.quiz.currentQuestionIndex = 0;
+          updateQuizUIControls();
+        }
+      });
+    }
+
+    window.onload = function () {
+      parseUrlParameters();
+      selectExperiment(state.activeExperiment, true);
+      requestAnimationFrame(simLoop);
+    };
+  </script>
+</body>
+</html>
